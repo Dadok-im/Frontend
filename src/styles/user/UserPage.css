@@ -1,0 +1,72 @@
+/* 전체 페이지 */
+.user-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+}
+
+/* 유저 정보 카드 */
+.user-info-card {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: left;
+}
+
+/* 제목 */
+.user-info-card h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+/* 유저 정보 */
+.user-info {
+  margin-bottom: 20px;
+}
+
+.user-info p {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.user-info strong {
+  font-weight: bold;
+  color: #333;
+}
+
+/* 에러 메시지 */
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* 로그아웃 버튼 */
+.logout-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.logout-btn:hover {
+  background-color: #555;
+}
+
+/* 로그아웃 메시지 */
+.logout-message {
+  color: green;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 20px;
+}

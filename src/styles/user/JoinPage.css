@@ -1,0 +1,81 @@
+/* 전체 페이지 */
+.join-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* 회원가입 카드 */
+.join-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  width: 400px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.join-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 라벨 */
+.join-container label {
+  display: block;
+  margin: 15px 0 5px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* 입력창 */
+.join-container input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  font-size: 14px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+/* 에러 메시지 */
+.error-message {
+  color: red;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+.success-message {
+  color: green;
+  font-size: 13px;
+  margin-top: 5px;
+}
+
+/* 버튼 */
+button {
+  width: 100%;
+  padding: 14px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #555;
+}
