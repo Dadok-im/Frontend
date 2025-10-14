@@ -1,0 +1,52 @@
+/* 메시지 행 (좌우 정렬 + 프로필) */
+.message-row {
+  display: flex;
+  align-items: flex-end;
+  margin: 8px 0;
+}
+
+.user-row {
+  justify-content: flex-end;
+}
+
+.assistant-row {
+  justify-content: flex-start;
+}
+
+/* 프로필 아이콘 */
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  margin: 0 6px;
+  border: 1px solid #555;
+}
+
+/* 말풍선 스타일 */
+.message-bubble {
+  padding: 10px 14px;
+  border-radius: 18px;
+  max-width: 65%;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.message-bubble.user {
+  background-color: #007bff;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.message-bubble.assistant {
+  background-color: #2a2a2a;
+  color: #eaeaea;
+  border: 1px solid #444;
+  border-bottom-left-radius: 4px;
+}
+
+.chat-container.light .message-bubble.assistant {
+  background-color: #f0f0f0;
+  color: #222;
+  border: 1px solid #ccc;
+}

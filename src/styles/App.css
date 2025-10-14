@@ -1,0 +1,45 @@
+/* ======================== */
+/* 기본 컨테이너            */
+/* ======================== */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  width: 420px;
+  border: 1px solid #2f2f2f;
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: "Apple SD Gothic Neo", Arial, sans-serif;
+  background: #121212;
+  color: #f1f1f1;
+}
+
+.chat-container.light {
+  background: #ffffff;
+  color: #222;
+  border: 1px solid #ccc;
+}
+
+/* ======================== */
+/* 중앙 정렬 & 반응형        */
+/* ======================== */
+#root {
+  min-height: 100vh;
+  background: #121212;
+}
+
+.chat-container.light ~ #root {
+  background: #fff;
+}
+
+/* 모바일 반응형 */
+@media screen and (max-width: 600px) {
+  body {
+    align-items: stretch;
+  }
+  .chat-container {
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+  }
+}

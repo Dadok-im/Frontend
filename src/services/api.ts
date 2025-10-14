@@ -1,0 +1,178 @@
+import axios from "axios";
+import { API_BASE_URL, API_ENDPOINTS } from "../constants";
+import { refreshAccessToken } from "../utils";
+import type { ChatApiResponse, Clinic } from "../types";
+
+// =============================
+// 🟢 Axios 인스턴스 기본 설정
+// =============================
+export const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 30000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// =============================
+// 🟢 요청 인터셉터
+// =============================
+apiClient.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    console.log(
+      "API 요청:",
+      config.method?.toUpperCase(),
+      config.url,
+      accessToken ? "(토큰 있음)" : "(토큰 없음)"
+    );
+
+    // ✅ JWT 토큰 자동 주입
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    console.error("요청 인터셉터 에러:", error);
+    return Promise.reject(error);
+  }
+);
+
+// =============================
+// 🟢 응답 인터셉터
+// =============================
+apiClient.interceptors.response.use(
+  (response) => {
+    console.log("API 응답:", response.status, response.config.url);
+    return response;
+  },
+  async (error) => {
+    const { response, config } = error;
+    console.error(
+      "API 에러:",
+      response?.status,
+      response?.data,
+      response?.config?.url
+    );
+    console.error("에러 상세:", error);
+    console.error("요청 헤더:", config?.headers);
+    console.error("요청 데이터:", config?.data);
+
+    // ✅ 400 Bad Request → 요청 형식 오류
+    if (response?.status === 400) {
+      console.error("❌ 400 에러 - 잘못된 요청:", response?.data);
+      console.error("요청 URL:", config?.url);
+      console.error("요청 메서드:", config?.method);
+      console.error("요청 헤더:", config?.headers);
+    }
+    
+    // ✅ 401 Unauthorized → 토큰 재발급 로직
+    if (response?.status === 401) {
+      console.warn("⚠️ 토큰 만료, 갱신 시도 중...");
+      try {
+        await refreshAccessToken();
+
+        const newAccessToken = localStorage.getItem("accessToken");
+        if (newAccessToken && config) {
+          config.headers.Authorization = `Bearer ${newAccessToken}`;
+          console.log("✅ 새 토큰으로 요청 재시도");
+          return apiClient(config);
+        }
+      } catch (refreshError) {
+        console.error("❌ 토큰 갱신 실패:", refreshError);
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        window.location.href = "/login";
+      }
+    }
+
+    // ✅ 403 Forbidden
+    if (response?.status === 403) {
+      console.warn("🚫 접근 권한이 없습니다.");
+    }
+
+    // ✅ 400 Bad Request (잘못된 요청)
+    if (response?.status === 400) {
+      console.warn("⚠️ 잘못된 요청입니다. URL 또는 요청 본문을 확인하세요.");
+    }
+
+    // ✅ 네트워크 에러
+    if (error.code === "ECONNREFUSED") {
+      console.error("🌐 백엔드 서버에 연결할 수 없습니다.");
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+// ======================================================
+// 🧠 Gemini / ChatGPT API 요청
+// ======================================================
+export const sendGeminiMessage = async (
+  messages: any[]
+): Promise<ChatApiResponse> => {
+  console.log("Gemini 메시지 요청:", messages);
+
+  const response = await apiClient.post(API_ENDPOINTS.GEMINI, {
+    messages: messages,
+  });
+  return response.data;
+};
+
+export const sendChatGPTMessage = async (
+  messages: any[]
+): Promise<ChatApiResponse> => {
+  console.log("ChatGPT 메시지 요청:", messages);
+
+  const response = await apiClient.post(API_ENDPOINTS.CHAT, {
+    messages: messages,
+  });
+  return response.data;
+};
+
+// ======================================================
+// 🧾 Gemini 대화 기록 조회 (JWT 인증 필요)
+// ======================================================
+export const fetchChatHistory = async (): Promise<any[]> => {
+  const accessToken = localStorage.getItem("accessToken");
+
+  if (!accessToken) {
+    console.error("⚠️ AccessToken이 존재하지 않습니다. 요청 취소");
+    throw new Error("AccessToken이 없습니다. 로그인 후 다시 시도하세요.");
+  }
+
+  try {
+    console.log("📡 대화 기록 요청 →", API_ENDPOINTS.GEMINI_HISTORY);
+
+    const response = await apiClient.get(API_ENDPOINTS.GEMINI_HISTORY, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+
+    // ✅ null 방어 추가
+    const data = response.data ?? [];
+
+    console.log("✅ 대화 기록 응답:", response.status, data.length);
+    return data;
+  } catch (error: any) {
+    console.error("❌ 대화 기록 요청 실패:", error.response?.status, error.response?.data);
+    throw error;
+  }
+};
+
+// ======================================================
+// 🗺️ 클리닉 검색 API
+// ======================================================
+export const searchClinics = async (params: {
+  lat: number;
+  lng: number;
+  q: string;
+  page?: number;
+  size?: number;
+  radius?: number;
+}): Promise<Clinic[]> => {
+  const response = await apiClient.get("/api/clinics/search", { params });
+  return response.data;
+};
