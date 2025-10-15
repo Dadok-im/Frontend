@@ -2,37 +2,39 @@ import { useEffect, useRef } from 'react';
 import type { Clinic, MapBounds, MapCenter } from '../../types';
 import { loadKakaoScript } from '../../lib/kakao';
 
-declare global { 
-  interface Window { 
+declare global {
+  interface Window {
     kakao: any;
-  } 
+  }
 }
 
 interface MapViewProps {
   center: MapCenter;
-  clinics: Clinic[];
+  clinics: Clinic[];  
   onMarkerClick?: (clinic: Clinic) => void;
   onIdleCenterChange?: (c: MapCenter) => void;
-  onIdleBoundsChange?: (b: MapBounds) => void;
-  fitToMarkers?: boolean;
-}
-
-const MapView: React.FC<MapViewProps> = ({
+  onIdleBoundsChange?: (b: MapBounds) => void; 
+  fitToMarkers?: boolean; 
+} 
+ 
+const MapView: React.FC<MapViewProps> = ({ 
   center, 
   clinics, 
   onMarkerClick, 
   onIdleCenterChange, 
   onIdleBoundsChange, 
-  fitToMarkers = true,
-}) => {
-  const mapRef = useRef<HTMLDivElement | null>(null);
-  const kakaoMapRef = useRef<any>(null);
-  const userMarkerRef = useRef<any>(null);
-  const markersRef = useRef<any[]>([]);
-  const infoRef = useRef<any | null>(null);
-
+  fitToMarkers = true, 
+}) => { 
+  const mapRef = useRef<HTMLDivElement | null>(null); 
+  const kakaoMapRef = useRef<any>(null); 
+  const userMarkerRef = useRef<any>(null); 
+  const markersRef = useRef<any[]>([]); 
+  const infoRef = useRef<any | null>(null); 
+ 
   const idleCenterCbRef = useRef<((c: MapCenter) => void) | null>(null);
   const idleBoundsCbRef = useRef<((b: MapBounds) => void) | null>(null);
+  const lastCenterRef = useRef<MapCenter | null>(null);
+  const isUpdatingRef = useRef<boolean>(false);
 
   // 최신 콜백을 ref에 보관
   useEffect(() => { idleCenterCbRef.current = onIdleCenterChange ?? null; }, [onIdleCenterChange]);
@@ -84,8 +86,26 @@ const MapView: React.FC<MapViewProps> = ({
         userMarkerRef.current.setMap(map);
 
         const fire = () => {
+          // 이미 업데이트 중이면 무시
+          if (isUpdatingRef.current) return;
+          
           const c = map.getCenter();
-          idleCenterCbRef.current?.({ lat: c.getLat(), lng: c.getLng() });
+          const newCenter = { lat: c.getLat(), lng: c.getLng() };
+          
+          // 이전 좌표와 비교하여 실제로 변경된 경우에만 콜백 호출
+          const lastCenter = lastCenterRef.current;
+          if (!lastCenter || 
+              Math.abs(newCenter.lat - lastCenter.lat) > 0.0001 || 
+              Math.abs(newCenter.lng - lastCenter.lng) > 0.0001) {
+            isUpdatingRef.current = true;
+            lastCenterRef.current = newCenter;
+            idleCenterCbRef.current?.(newCenter);
+            // 짧은 지연 후 플래그 리셋
+            setTimeout(() => {
+              isUpdatingRef.current = false;
+            }, 100);
+          }
+          
           if (idleBoundsCbRef.current) {
             const b = map.getBounds();
             const sw = b.getSouthWest();

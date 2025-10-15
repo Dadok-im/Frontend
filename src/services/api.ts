@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL, API_ENDPOINTS } from "../constants";
-import { refreshAccessToken } from "../utils";
+import { refreshAccessToken, fetchWithAccess } from "../utils";
 import type { ChatApiResponse, Clinic } from "../types";
 
 // =============================
@@ -69,24 +69,13 @@ apiClient.interceptors.response.use(
       console.error("요청 헤더:", config?.headers);
     }
     
-    // ✅ 401 Unauthorized → 토큰 재발급 로직
+    // ✅ 401 Unauthorized → 로그인 페이지로 이동
     if (response?.status === 401) {
-      console.warn("⚠️ 토큰 만료, 갱신 시도 중...");
-      try {
-        await refreshAccessToken();
-
-        const newAccessToken = localStorage.getItem("accessToken");
-        if (newAccessToken && config) {
-          config.headers.Authorization = `Bearer ${newAccessToken}`;
-          console.log("✅ 새 토큰으로 요청 재시도");
-          return apiClient(config);
-        }
-      } catch (refreshError) {
-        console.error("❌ 토큰 갱신 실패:", refreshError);
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        window.location.href = "/login";
-      }
+      console.error("❌ 401 에러 - 인증 실패, 로그인 페이지로 이동");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      window.location.href = "/login";
+      return Promise.reject(error);
     }
 
     // ✅ 403 Forbidden
@@ -115,55 +104,65 @@ export const sendGeminiMessage = async (
   messages: any[]
 ): Promise<ChatApiResponse> => {
   console.log("Gemini 메시지 요청:", messages);
-
-  const response = await apiClient.post(API_ENDPOINTS.GEMINI, {
-    messages: messages,
+  
+  const url = `${API_BASE_URL}${API_ENDPOINTS.GEMINI}`;
+  
+  const response = await fetchWithAccess(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ messages }),
   });
-  return response.data;
+  
+  return await response.json();
 };
 
 export const sendChatGPTMessage = async (
   messages: any[]
 ): Promise<ChatApiResponse> => {
   console.log("ChatGPT 메시지 요청:", messages);
-
-  const response = await apiClient.post(API_ENDPOINTS.CHAT, {
-    messages: messages,
+  
+  const url = `${API_BASE_URL}${API_ENDPOINTS.CHAT}`;
+  
+  const response = await fetchWithAccess(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ messages }),
   });
-  return response.data;
+  
+  return await response.json();
 };
 
 // ======================================================
 // 🧾 Gemini 대화 기록 조회 (JWT 인증 필요)
 // ======================================================
 export const fetchChatHistory = async (): Promise<any[]> => {
-  const accessToken = localStorage.getItem("accessToken");
-
-  if (!accessToken) {
-    console.error("⚠️ AccessToken이 존재하지 않습니다. 요청 취소");
-    throw new Error("AccessToken이 없습니다. 로그인 후 다시 시도하세요.");
-  }
-
+  const url = `${API_BASE_URL}${API_ENDPOINTS.GEMINI_HISTORY}`;
+  
   try {
-    console.log("📡 대화 기록 요청 →", API_ENDPOINTS.GEMINI_HISTORY);
-
-    const response = await apiClient.get(API_ENDPOINTS.GEMINI_HISTORY, {
-      headers: { Authorization: `Bearer ${accessToken}` },
+    console.log("📡 대화 기록 요청 →", url);
+    
+    const response = await fetchWithAccess(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
-
-    // ✅ null 방어 추가
-    const data = response.data ?? [];
-
+    
+    const data = await response.json();
     console.log("✅ 대화 기록 응답:", response.status, data.length);
-    return data;
+    return data ?? [];
   } catch (error: any) {
-    console.error("❌ 대화 기록 요청 실패:", error.response?.status, error.response?.data);
+    console.error("❌ 대화 기록 요청 실패:", error);
     throw error;
   }
 };
 
 // ======================================================
-// 🗺️ 클리닉 검색 API
+// 🗺️ 클리닉 검색 API (fetchWithAccess 사용)
 // ======================================================
 export const searchClinics = async (params: {
   lat: number;
@@ -173,6 +172,28 @@ export const searchClinics = async (params: {
   size?: number;
   radius?: number;
 }): Promise<Clinic[]> => {
-  const response = await apiClient.get("/api/clinics/search", { params });
-  return response.data;
+  // URL 파라미터 생성
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null) {
+      searchParams.append(key, value.toString());
+    }
+  });
+  
+  const url = `${API_BASE_URL}/api/clinics/search?${searchParams.toString()}`;
+  
+  try {
+    const response = await fetchWithAccess(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("클리닉 검색 API 에러:", error);
+    throw error;
+  }
 };

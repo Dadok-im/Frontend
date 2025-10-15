@@ -1,6 +1,6 @@
 /* 지도 페이지 - 트렌디한 글래스모피즘 스타일 */
 .map-page {
-  min-height: 100vh;
+  height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   flex-direction: column;
@@ -39,6 +39,22 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
 .map-container {
   flex: 1;
   display: grid;
@@ -47,6 +63,8 @@
   height: calc(100vh - 80px);
   position: relative;
   z-index: 1;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .map-sidebar {
@@ -54,13 +72,18 @@
   backdrop-filter: blur(20px);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   padding: 1rem;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .search-controls {
   display: flex;
   gap: 8px;
   margin-bottom: 1rem;
+  flex-shrink: 0;
 }
 
 .search-controls input {
@@ -115,6 +138,47 @@
   cursor: not-allowed;
 }
 
+.location-controls {
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+}
+
+.location-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.location-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-1px);
+}
+
+.location-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.location-error {
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(255, 99, 99, 0.1);
+  border: 1px solid rgba(255, 99, 99, 0.3);
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
 .disclaimer {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.7);
@@ -124,6 +188,7 @@
   border-radius: 12px;
   border-left: 3px solid rgba(255, 255, 255, 0.3);
   line-height: 1.5;
+  flex-shrink: 0;
 }
 
 .results-count {
@@ -131,12 +196,38 @@
   margin-bottom: 1rem;
   color: white;
   font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 .results-list {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+  margin-right: -8px;
+  min-height: 0;
+}
+
+/* 스크롤바 스타일링 */
+.results-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.results-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.results-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.results-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .result-item {
@@ -216,6 +307,9 @@
 .map-area {
   position: relative;
   background: white;
+  height: 100%;
+  overflow: hidden;
+  min-height: 0;
 }
 
 .map-controls-center {
@@ -237,6 +331,36 @@
   box-shadow: 0 6px 18px rgba(0,0,0,0.16);
   cursor: pointer;
   font-size: 13px;
+}
+
+.search-here-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #333333;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.16);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.search-here-btn:hover:not(:disabled) {
+  background: #f8f9fa;
+  color: #333333;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.search-here-btn:disabled {
+  opacity: 0.6;
+  color: #333333;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .map-controls-left {
@@ -264,11 +388,17 @@
   .map-container {
     grid-template-columns: 1fr;
     grid-template-rows: 300px 1fr;
+    height: calc(100vh - 80px);
   }
   
   .map-sidebar {
     border-right: none;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    height: 100%;
+  }
+  
+  .map-area {
+    height: 300px;
   }
 }
 
@@ -283,6 +413,7 @@
   
   .map-sidebar {
     padding: 0.5rem;
+    height: 100%;
   }
   
   .search-controls {

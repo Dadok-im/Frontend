@@ -38,7 +38,7 @@ const JoinPage: React.FC = () => {
     };
 
     const delay = setTimeout(checkUsername, 300);
-    return () => clearTimeout(delay);
+    return () => clearTimeout(delay)
   }, [username]);
 
   const handleSignUp = async (e: React.FormEvent) => {
