@@ -4,6 +4,8 @@
   padding: 12px;
   border-top: 1px solid #2f2f2f;
   background: #1e1e1e;
+  flex-shrink: 0 !important;
+  z-index: 2;
 }
 
 .chat-container.light .input-box {
@@ -13,11 +15,12 @@
 
 .input-box input {
   flex: 1;
-  padding: 10px;
+  padding: 14px 18px;
+  font-size: 15px;
   background: #2a2a2a;
   color: #fff;
   border: 1px solid #444;
-  border-radius: 20px;
+  border-radius: 24px;
   outline: none;
 }
 
@@ -33,13 +36,15 @@
 
 .input-box button {
   margin-left: 10px;
-  padding: 10px 16px;
+  padding: 8px 20px;
+  font-size: 14px;
   border: none;
   background-color: #007bff;
   color: white;
   border-radius: 20px;
   cursor: pointer;
   transition: background 0.2s ease;
+  white-space: nowrap;
 }
 
 .input-box button:hover:not(:disabled) {

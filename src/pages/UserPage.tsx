@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { fetchWithAccess } from "../utils";
 import { useAuth } from "../contexts/AuthContext";
 import { ROUTES } from "../constants";
@@ -79,8 +79,11 @@ const UserPage: React.FC = () => {
 
   return (
     <div className="user-page">
-      <div className="user-info-card">
+      <nav className="user-nav">
+        <Link to={ROUTES.HOME} className="nav-link">← 홈으로</Link>
         <h1>내 정보</h1>
+      </nav>
+      <div className="user-info-card">
         {error && <p className="error-message">{error}</p>}
         {userInfo ? (
           <>

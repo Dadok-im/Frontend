@@ -1,7 +1,7 @@
 /* 채팅 페이지 - 트렌디한 글래스모피즘 스타일 */
 .chat-page {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  height: 100vh;
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 25%, #667eea 50%, #764ba2 75%, #f093fb 100%);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -15,23 +15,37 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="white" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
   pointer-events: none;
+  animation: backgroundShift 20s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
 }
 
 .chat-nav {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(30px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.5rem 2rem;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  justify-content: center;
   position: relative;
   z-index: 1;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
-.nav-link {
+.chat-nav .nav-link {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
   color: white;
   text-decoration: none;
   font-weight: 500;
@@ -39,12 +53,15 @@
   border-radius: 20px;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.nav-link:hover {
+.chat-nav .nav-link:hover {
   background: rgba(255, 255, 255, 0.2);
   text-decoration: none;
-  transform: translateY(-1px);
+  transform: translateY(-50%) translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .chat-nav h1 {
@@ -53,6 +70,8 @@
   color: white;
   font-weight: 300;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  flex: 1;
 }
 
 .connection-status {
@@ -91,9 +110,10 @@
 
 .chat-page .chat-container {
   flex: 1;
-  margin: 2rem auto;
+  margin: 1rem auto;
   max-width: 500px;
   width: 90%;
+  max-height: calc(100vh - 80px);
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -102,6 +122,34 @@
   position: relative;
   z-index: 1;
   animation: slideUp 0.6s ease-out;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* 강제 적용을 위한 추가 규칙 */
+.chat-page .chat-container * {
+  box-sizing: border-box;
+}
+
+.chat-page .chat-container > * {
+  flex-shrink: 0;
+}
+
+.chat-page .chat-container .chat-box {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  min-height: 0 !important;
+}
+
+/* 더 구체적인 스크롤 규칙 */
+.chat-page .chat-container {
+  contain: layout style;
+}
+
+.chat-page .chat-container .chat-box {
+  contain: layout style paint;
+  will-change: scroll-position;
 }
 
 @keyframes slideUp {
@@ -122,9 +170,9 @@
   }
   
   .chat-page .chat-container {
-    margin: 1rem auto;
+    margin: 0.5rem auto;
     width: 95%;
-    height: calc(100vh - 80px);
+    max-height: calc(100vh - 60px) !important;
     border-radius: 16px;
   }
 }

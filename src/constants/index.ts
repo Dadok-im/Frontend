@@ -24,7 +24,9 @@ export const DEFAULT_MESSAGES = {
 export const API_ENDPOINTS = {
   GEMINI: "/api/gemini",
   CHAT: "/api/chat",
-  GEMINI_HISTORY: "/api/gemini/history/all"
+  GEMINI_HISTORY: "/api/gemini/history/all",
+  DIARY: "/api/diary",
+  DIARY_LIST: "/api/diary/list"
 } as const;
 
 // 라우트 경로

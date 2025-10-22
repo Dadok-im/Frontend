@@ -7,6 +7,8 @@
   background: #1e1e1e;
   color: #aaa;
   border-bottom: 1px solid #2f2f2f;
+  flex-shrink: 0 !important;
+  z-index: 2;
 }
 
 .chat-container.light .chat-header {
