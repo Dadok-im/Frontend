@@ -35,6 +35,7 @@ export const ROUTES = {
   CHAT: "/chat",
   MAP: "/map",
   CALENDAR: "/calendar",
+  DIARY: "/diary",
   LOGIN: "/login",
   JOIN: "/join",
   USER: "/user",

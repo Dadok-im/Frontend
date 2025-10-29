@@ -4,6 +4,7 @@ import MainPage from "./pages/MainPage";
 import ChatPage from "./pages/ChatPage";
 import MapPage from "./pages/MapPage";
 import CalendarPage from "./pages/CalendarPage";
+import DiaryPage from "./pages/DiaryPage";
 import LoginPage from "./pages/LoginPage";
 import JoinPage from "./pages/JoinPage";
 import UserPage from "./pages/UserPage";
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/map" element={<MapPage />} />
           <Route path="/calendar" element={<CalendarPage />} />
+          <Route path="/diary" element={<DiaryPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/join" element={<JoinPage />} />
           <Route path="/user" element={<UserPage />} />

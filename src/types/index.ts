@@ -48,4 +48,5 @@ export interface Entry {
   counsel?: string[];
   diary?: boolean;
   diaryText?: string;
+  mood?: string; // 'very-happy' | 'happy' | 'neutral' | 'sad' | 'very-sad'
 }

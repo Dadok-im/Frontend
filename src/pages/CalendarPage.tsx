@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES, API_BASE_URL, API_ENDPOINTS } from '../constants';
 import EntryModal from '../components/EntryModal';
 import type { Entry } from '../types';
@@ -11,11 +11,10 @@ import './CalendarPage.css';
 
 const CalendarPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [entries, setEntries] = useState<Entry[]>([]);
-  const [diaryDraft, setDiaryDraft] = useState('');
-  const [editingDiary, setEditingDiary] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const onDateClick = (date: Date) => {
@@ -85,14 +84,15 @@ const CalendarPage: React.FC = () => {
       const data = await response.json();
       console.log('✅ 일기 목록 로드 완료:', data);
 
-      // 백엔드 응답 형식: [{ date: "2025-01-02", diaryText: "내용" }]
-      // Entry 형식으로 변환: { date, diary, diaryText, pills, counsel }
+      // 백엔드 응답 형식: [{ date: "2025-01-02", diaryText: "내용", mood: "happy" }]
+      // Entry 형식으로 변환: { date, diary, diaryText, pills, counsel, mood }
       const formattedEntries: Entry[] = data.map((item: any) => ({
         date: item.date,
         diary: true, // 일기가 있는 데이터만 오므로 항상 true
         diaryText: item.diaryText || '',
         pills: [], // 백엔드에서 제공하지 않으므로 빈 배열
         counsel: [], // 백엔드에서 제공하지 않으므로 빈 배열
+        mood: item.mood || undefined, // 기분 정보
       }));
 
       setEntries(formattedEntries);
@@ -106,49 +106,15 @@ const CalendarPage: React.FC = () => {
     }
   };
 
-  const handleDiarySave = async () => {
-    // 오늘이 아닌 경우 저장 불가
+  const handleDiaryWrite = () => {
+    // 오늘이 아닌 경우 일기 작성 불가
     if (!isToday(selectedDate)) {
       alert('오늘 날짜의 일기만 작성할 수 있습니다.');
       return;
     }
-
-    const formattedDate = formatDate(selectedDate);
-
-    try {
-      const url = `${API_BASE_URL}${API_ENDPOINTS.DIARY}`;
-      
-      const response = await fetchWithAccess(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          date: formattedDate,
-          diaryText: diaryDraft,
-        }),
-      });
-
-      const result = await response.json();
-      console.log('✅ 일기 저장 완료:', result);
-
-      // 로컬 상태 업데이트
-      const existing = getEntryForDate(selectedDate);
-      const updatedEntry: Entry = {
-        date: formattedDate,
-        diary: true,
-        diaryText: diaryDraft,
-        pills: existing?.pills || [],
-        counsel: existing?.counsel || [],
-      };
-
-      handleSave(updatedEntry);
-      setEditingDiary(false);
-
-    } catch (error) {
-      console.error('🚨 일기 저장 중 오류:', error);
-      alert('일기 저장에 실패했습니다.');
-    }
+    
+    // 일기 작성 페이지로 이동
+    navigate('/diary');
   };
 
   // 컴포넌트 마운트 시 일기 데이터 로드
@@ -156,11 +122,9 @@ const CalendarPage: React.FC = () => {
     fetchDiaryEntries();
   }, [isAuthenticated]);
 
-  // 선택된 날짜가 변경될 때 일기 초안 업데이트
+  // 선택된 날짜가 변경될 때 상태 초기화
   useEffect(() => {
-    const entry = getEntryForDate(selectedDate);
-    setDiaryDraft(entry?.diaryText || '');
-    setEditingDiary(false);
+    // 일기 작성 관련 상태는 더 이상 필요 없음
   }, [selectedDate, entries]);
 
   return (
@@ -191,8 +155,29 @@ const CalendarPage: React.FC = () => {
                 tileContent={({ date, view }: { date: Date; view: string }) => {
                   if (view !== 'month') return null;
                   const entry = getEntryForDate(date);
+                  
+                  // 기분 아이콘 매핑
+                  const getMoodIcon = (mood?: string) => {
+                    switch (mood) {
+                      case 'very-happy': return '😄';
+                      case 'happy': return '😊';
+                      case 'neutral': return '😐';
+                      case 'sad': return '😢';
+                      case 'very-sad': return '😭';
+                      default: return null;
+                    }
+                  };
+                  
                   return (
                     <div className="calendar-tags">
+                      {entry?.mood && (
+                        <div className="tag mood" style={{ 
+                          fontSize: '20px',
+                          padding: '2px 4px'
+                        }}>
+                          {getMoodIcon(entry.mood)}
+                        </div>
+                      )}
                       {entry?.pills?.map((pill, i) => (
                         <div key={i} className="tag pill">💊 {pill}</div>
                       ))}
@@ -213,6 +198,22 @@ const CalendarPage: React.FC = () => {
           <div className="box">
             <h3>오늘 요약</h3>
             <ul>
+              <li>
+                기분: {
+                  todayEntry?.mood 
+                    ? (() => {
+                        switch (todayEntry.mood) {
+                          case 'very-happy': return '😄 매우 좋음';
+                          case 'happy': return '😊 좋음';
+                          case 'neutral': return '😐 보통';
+                          case 'sad': return '😢 나쁨';
+                          case 'very-sad': return '😭 매우 나쁨';
+                          default: return '없음';
+                        }
+                      })()
+                    : '없음'
+                }
+              </li>
               <li>💊 약: {todayEntry?.pills?.join(', ') || '없음'}</li>
               <li>🗣️ 상담: {todayEntry?.counsel?.join(', ') || '없음'}</li>
               <li>📓 일기: {todayEntry?.diary ? '작성됨' : '없음'}</li>
@@ -263,36 +264,36 @@ const CalendarPage: React.FC = () => {
                     : '📝 작성된 일기가 없습니다.'}
                 </p>
               )
-            ) : editingDiary ? (
-              // 오늘 날짜이고 편집 모드인 경우
-              <>
-                <textarea
-                  placeholder="오늘의 일기를 입력하세요"
-                  value={diaryDraft}
-                  onChange={(e) => setDiaryDraft(e.target.value)}
-                />
-                <button className="diary-save" onClick={handleDiarySave}>
-                  저장
-                </button>
-              </>
             ) : todayEntry?.diaryText ? (
               // 오늘 날짜이고 일기가 있는 경우
               <>
                 <p>{todayEntry.diaryText}</p>
-                <button className="edit-btn" onClick={() => setEditingDiary(true)}>
-                  ✏️ 수정하기
+                <button className="edit-btn" onClick={handleDiaryWrite}>
+                  ✏️ 일기 수정하기
                 </button>
               </>
             ) : (
               // 오늘 날짜이고 일기가 없는 경우
               <>
-                <textarea
-                  placeholder="오늘의 일기를 입력하세요"
-                  value={diaryDraft}
-                  onChange={(e) => setDiaryDraft(e.target.value)}
-                />
-                <button className="diary-save" onClick={handleDiarySave}>
-                  저장
+                <p style={{ 
+                  textAlign: 'center', 
+                  padding: '20px', 
+                  color: '#999' 
+                }}>
+                  📝 아직 작성된 일기가 없습니다.
+                </p>
+                <button className="diary-save" onClick={handleDiaryWrite} style={{
+                  width: '100%',
+                  padding: '12px',
+                  marginTop: '10px',
+                  backgroundColor: '#007bff',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '16px'
+                }}>
+                  📝 일기 작성하기
                 </button>
               </>
             )}
