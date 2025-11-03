@@ -128,7 +128,7 @@ export default function MapPage() {
   );
 
   return (
-    <div className="relative flex min-h-screen flex-col overflow-hidden bg-gradient-to-br from-[#1e3c72] via-[#667eea] to-[#f093fb] text-white">
+    <div className="relative flex h-screen flex-col overflow-hidden bg-gradient-to-br from-[#1e3c72] via-[#667eea] to-[#f093fb] text-white">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-90"
@@ -150,8 +150,8 @@ export default function MapPage() {
         </h1>
       </nav>
 
-      <div className="relative z-10 flex flex-1 flex-col md:flex-row">
-        <aside className="flex w-full flex-col border-b border-white/20 bg-white/10 p-5 backdrop-blur-2xl shadow-2xl sm:p-6 md:w-[360px] md:border-b-0 md:border-r md:p-8">
+      <div className="relative z-10 flex flex-1 flex-col overflow-hidden md:flex-row">
+        <aside className="flex h-full w-full flex-col border-b border-white/20 bg-white/10 p-5 backdrop-blur-2xl shadow-2xl sm:p-6 md:w-[360px] md:border-b-0 md:border-r md:p-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
             <input
               className="w-full rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-sm text-white placeholder:text-white/70 shadow-inner transition duration-200 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40 sm:flex-1"
@@ -177,7 +177,7 @@ export default function MapPage() {
             결과 {list.length}건
           </div>
 
-          <div className="mt-4 flex-1 overflow-y-auto space-y-3 pr-1 sm:pr-2">
+          <div className="mt-4 flex-1 overflow-y-auto space-y-3 pr-1 sm:pr-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
             {list.map(c => {
               const isSelected = selectedId === c.id;
               return (
@@ -230,7 +230,7 @@ export default function MapPage() {
           </div>
         </aside>
 
-        <section className="relative flex flex-1 flex-col border-t border-white/20 bg-white/95 text-gray-900 md:border-l md:border-t-0">
+        <section className="relative flex flex-1 flex-col overflow-hidden border-t border-white/20 bg-white/95 text-gray-900 md:border-l md:border-t-0">
           <div className="relative flex-1">
             <MapView
               center={center}
