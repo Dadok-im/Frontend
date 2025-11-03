@@ -6,18 +6,23 @@ import MessageInput from "../components/Input/MessageInput";
 import { useChat } from "../hooks/useChat";
 import { useTheme } from "../hooks/useTheme";
 import { useMenu } from "../hooks/useMenu";
-import { useAuth } from "../contexts/AuthContext";
 import { ROUTES } from "../constants";
+import { useAuthStore } from "../stores/authStore";
 
 const ChatPage: React.FC = () => {
-  const { isAuthenticated, user } = useAuth();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const user = useAuthStore((state) => state.user);
+  const hasCheckedAuth = useAuthStore((state) => state.hasCheckedAuth);
   const { messages, loading, model, setModel, sendMessage, clearMessages, connectionStatus } = useChat();
   const { darkMode, setDarkMode } = useTheme();
   const { menuOpen, setMenuOpen } = useMenu();
 
   // 로그인하지 않은 경우 로그인 페이지로 리디렉션
-  if (!isAuthenticated) {
+  if (hasCheckedAuth && !isAuthenticated) {
     return <Navigate to={ROUTES.LOGIN} replace />;
+  }
+  if (!hasCheckedAuth) {
+    return null;
   }
 
   const statusStyles: Record<string, string> = {

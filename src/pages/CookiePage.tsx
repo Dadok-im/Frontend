@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 import { ROUTES } from "../constants";
+import { useAuthStore } from "../stores/authStore";
 
 const CookiePage: React.FC = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const login = useAuthStore((state) => state.login);
   const hasRun = useRef(false);
 
   useEffect(() => {

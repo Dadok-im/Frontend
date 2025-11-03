@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { fetchWithAccess } from "../utils";
-import { useAuth } from "../contexts/AuthContext";
 import { ROUTES } from "../constants";
+import { useAuthStore } from "../stores/authStore";
 
 // .env로 부터 백엔드 URL 받아오기
 const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
@@ -15,7 +15,7 @@ interface UserInfo {
 
 const UserPage: React.FC = () => {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const logout = useAuthStore((state) => state.logout);
   
   // 정보
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
@@ -65,7 +65,7 @@ const UserPage: React.FC = () => {
         setLogoutMsg("로그아웃 되었습니다.");
         setUserInfo(null);  // 사용자 정보 초기화
         
-        // AuthContext에서 로그아웃 처리
+        // 전역 상태에서 로그아웃 처리
         logout();
 
         navigate(ROUTES.HOME); // 메인 페이지로 이동

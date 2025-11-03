@@ -5,11 +5,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES, API_BASE_URL, API_ENDPOINTS } from '../constants';
 import EntryModal from '../components/EntryModal';
 import type { Entry } from '../types';
-import { useAuth } from '../contexts/AuthContext';
 import { fetchWithAccess } from '../utils';
+import { useAuthStore } from '../stores/authStore';
 
 const CalendarPage: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());

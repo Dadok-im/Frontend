@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { API_BASE_URL, API_ENDPOINTS, ROUTES } from '../constants';
-import { useAuth } from '../contexts/AuthContext';
 import { fetchWithAccess } from '../utils';
+import { useAuthStore } from '../stores/authStore';
 
 const DiaryPage: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
   const [mood, setMood] = useState<string>('');
   const [diaryText, setDiaryText] = useState<string>('');

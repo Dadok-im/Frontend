@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { handleImageError } from "../utils";
-import { useAuth } from "../contexts/AuthContext";
 import { ROUTES } from "../constants";
+import { useAuthStore } from "../stores/authStore";
 
 const NAV_LINK_CLASS =
   "rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-md backdrop-blur transition duration-200 hover:-translate-y-0.5 hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60";
 
 const MainPage: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const user = useAuthStore((state) => state.user);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#1e3c72] via-[#667eea] to-[#f093fb] text-white">

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 import { ROUTES } from "../constants";
+import { useAuthStore } from "../stores/authStore";
 
 const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
@@ -10,7 +10,7 @@ const LoginPage: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const login = useAuthStore((state) => state.login);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ const LoginPage: React.FC = () => {
 
         if (userResponse.ok) {
           const userData = await userResponse.json();
-          // 사용자 정보를 AuthContext에 저장
+          // 사용자 정보를 전역 상태에 저장
           login(userData);
         } else {
           console.error('사용자 정보 가져오기 실패');
