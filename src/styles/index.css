@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* 전역 스타일 */
 * {
   box-sizing: border-box;
@@ -51,4 +55,57 @@ input, textarea {
 input:focus, textarea:focus {
   border-color: #007bff;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+@layer components {
+  .calendar-widget {
+    @apply w-full border-0 bg-transparent font-sans text-gray-900;
+  }
+
+  .calendar-widget .react-calendar__navigation {
+    @apply mb-6 flex items-center justify-between px-2;
+  }
+
+  .calendar-widget .react-calendar__navigation button {
+    @apply rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-3 py-2 text-sm font-semibold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .calendar-widget .react-calendar__navigation__label {
+    @apply bg-transparent text-lg font-bold text-indigo-600 shadow-none transition hover:bg-indigo-50/60 hover:text-indigo-700;
+  }
+
+  .calendar-widget .react-calendar__month-view__weekdays {
+    @apply mb-2 grid text-xs font-semibold uppercase tracking-widest text-indigo-400;
+  }
+
+  .calendar-widget .react-calendar__month-view__weekdays__weekday {
+    @apply p-2 text-center;
+  }
+
+  .calendar-widget .react-calendar__tile {
+    @apply rounded-xl border border-transparent py-3 text-sm font-medium transition;
+  }
+
+  .calendar-widget .react-calendar__tile:enabled:hover,
+  .calendar-widget .react-calendar__tile:enabled:focus {
+    @apply bg-indigo-50 text-indigo-700;
+  }
+
+  .calendar-widget .react-calendar__tile--now {
+    @apply border border-indigo-200 bg-indigo-50 text-indigo-700;
+  }
+
+  .calendar-widget .react-calendar__tile--active,
+  .calendar-widget .react-calendar__tile--rangeStart,
+  .calendar-widget .react-calendar__tile--rangeEnd {
+    @apply bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg;
+  }
+
+  .calendar-widget .react-calendar__tile--range {
+    @apply bg-indigo-100 text-indigo-700;
+  }
+
+  .calendar-widget .react-calendar__tile abbr {
+    @apply no-underline;
+  }
 }

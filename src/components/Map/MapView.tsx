@@ -34,6 +34,7 @@ const MapView: React.FC<MapViewProps> = ({
   const idleCenterCbRef = useRef<((c: MapCenter) => void) | null>(null);
   const idleBoundsCbRef = useRef<((b: MapBounds) => void) | null>(null);
   const lastCenterRef = useRef<MapCenter | null>(null);
+  const lastBoundsRef = useRef<MapBounds | null>(null);
   const isUpdatingRef = useRef<boolean>(false);
 
   // 최신 콜백을 ref에 보관
@@ -110,10 +111,21 @@ const MapView: React.FC<MapViewProps> = ({
             const b = map.getBounds();
             const sw = b.getSouthWest();
             const ne = b.getNorthEast();
-            idleBoundsCbRef.current({
+            const newBounds: MapBounds = {
               sw: { lat: sw.getLat(), lng: sw.getLng() },
               ne: { lat: ne.getLat(), lng: ne.getLng() },
-            });
+            };
+            const lastBounds = lastBoundsRef.current;
+            if (
+              !lastBounds ||
+              Math.abs(newBounds.sw.lat - lastBounds.sw.lat) > 0.0001 ||
+              Math.abs(newBounds.sw.lng - lastBounds.sw.lng) > 0.0001 ||
+              Math.abs(newBounds.ne.lat - lastBounds.ne.lat) > 0.0001 ||
+              Math.abs(newBounds.ne.lng - lastBounds.ne.lng) > 0.0001
+            ) {
+              lastBoundsRef.current = newBounds;
+              idleBoundsCbRef.current(newBounds);
+            }
           }
         };
 

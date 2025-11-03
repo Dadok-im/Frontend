@@ -64,8 +64,8 @@ src/
 - **Vite 7.1.2**: 빌드 도구
 - **React Router**: 라우팅
 - **Axios**: HTTP 클라이언트
+- **Tailwind CSS 3**: 유틸리티 기반 스타일링
 - **카카오 맵 API**: 지도 서비스
-- **CSS3**: 스타일링
 
 ## 📦 설치 및 실행
 
@@ -102,6 +102,11 @@ npm run build
 ```bash
 npm run lint
 ```
+
+### Tailwind CSS
+- 전역 엔트리(`src/styles/index.css`)에 Tailwind 기본 디렉티브가 포함되어 있습니다.
+- 컴포넌트에서는 Tailwind 유틸리티 클래스를 활용해 스타일을 작성하세요.
+- 필요 시 `tailwind.config.js`의 `theme.extend`를 수정해 색상/폰트 등을 확장할 수 있습니다.
 
 ## 🔧 설정
 

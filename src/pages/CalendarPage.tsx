@@ -7,7 +7,6 @@ import EntryModal from '../components/EntryModal';
 import type { Entry } from '../types';
 import { useAuth } from '../contexts/AuthContext';
 import { fetchWithAccess } from '../utils';
-import './CalendarPage.css';
 
 const CalendarPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
@@ -16,6 +15,11 @@ const CalendarPage: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [entries, setEntries] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(true);
+  const selectedDateLabel = selectedDate.toLocaleDateString('ko-KR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
   const onDateClick = (date: Date) => {
     setSelectedDate(date);
@@ -128,187 +132,222 @@ const CalendarPage: React.FC = () => {
   }, [selectedDate, entries]);
 
   return (
-    <div className="calendar-page">
-      <nav className="calendar-nav">
-        <Link to={ROUTES.HOME} className="nav-link">← 홈으로</Link>
-        <h1>📅 다독임 캘린더</h1>
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-400 text-white">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-95"
+        style={{
+          background:
+            'radial-gradient(circle at 20% 80%, rgba(120,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(255,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(120,219,255,0.2) 0%, transparent 55%)',
+        }}
+      />
+
+      <nav className="relative z-10 flex items-center justify-center gap-4 border-b border-white/20 bg-white/10 px-4 py-5 backdrop-blur-2xl shadow-lg sm:px-5 sm:py-6">
+        <Link
+          to={ROUTES.HOME}
+          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-medium text-white shadow-md transition duration-200 hover:-translate-y-1 hover:bg-white/25 sm:left-6 sm:text-sm"
+        >
+          ← 홈으로
+        </Link>
+        <h1 className="text-lg font-semibold tracking-tight text-transparent drop-shadow-xl sm:text-xl md:text-2xl bg-gradient-to-r from-white to-indigo-100 bg-clip-text">
+          📅 다독임 캘린더
+        </h1>
         {isAuthenticated && user?.nickname && (
-          <span className="user-welcome">안녕하세요, {user.nickname}님!</span>
+          <span className="hidden rounded-full border border-white/25 bg-white/15 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur lg:inline-flex">
+            안녕하세요, {user.nickname}님!
+          </span>
         )}
       </nav>
 
-      <div className="calendar-layout">
-        {/* 좌측: 캘린더 */}
-        <div className="calendar-section">
-          <div className="calendar-body">
-            <div className="calendar-wrapper">
-              <Calendar
-                onClickDay={onDateClick}
-                showNeighboringMonth={false}
-                maxDetail="month"
-                minDetail="month"
-                formatMonthYear={(_locale, date) => {
-                  const year = date.getFullYear();
-                  const month = date.getMonth() + 1;
-                  return `${year}년 ${month}월`;
-                }}
-                tileContent={({ date, view }: { date: Date; view: string }) => {
-                  if (view !== 'month') return null;
-                  const entry = getEntryForDate(date);
-                  
-                  // 기분 아이콘 매핑
-                  const getMoodIcon = (mood?: string) => {
-                    switch (mood) {
-                      case 'very-happy': return '😄';
-                      case 'happy': return '😊';
-                      case 'neutral': return '😐';
-                      case 'sad': return '😢';
-                      case 'very-sad': return '😭';
-                      default: return null;
-                    }
-                  };
-                  
-                  return (
-                    <div className="calendar-tags">
-                      {entry?.mood && (
-                        <div className="tag mood" style={{ 
-                          fontSize: '20px',
-                          padding: '2px 4px'
-                        }}>
-                          {getMoodIcon(entry.mood)}
-                        </div>
-                      )}
-                      {entry?.pills?.map((pill, i) => (
-                        <div key={i} className="tag pill">💊 {pill}</div>
-                      ))}
-                      {entry?.counsel?.map((counsel, i) => (
-                        <div key={i} className="tag counsel">📞 {counsel}</div>
-                      ))}
-                      {entry?.diary && <div className="tag diary">📓 일기</div>}
-                    </div>
-                  );
-                }}
-              />
-            </div>
-          </div>
-        </div>
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-5 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <section className="rounded-3xl border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur-2xl sm:p-6">
+          <div className="rounded-2xl bg-white p-3 text-gray-900 shadow-xl sm:p-4">
+            <Calendar
+              className="calendar-widget"
+              onClickDay={onDateClick}
+              showNeighboringMonth={false}
+              maxDetail="month"
+              minDetail="month"
+              formatMonthYear={(_locale, date) => {
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                return `${year}년 ${month}월`;
+              }}
+              tileContent={({ date, view }: { date: Date; view: string }) => {
+                if (view !== 'month') return null;
+                const entry = getEntryForDate(date);
 
-        {/* 우측: 사이드바 */}
-        <div className="sidebar-section">
-          <div className="box">
-            <h3>오늘 요약</h3>
-            <ul>
+                const getMoodIcon = (mood?: string) => {
+                  switch (mood) {
+                    case 'very-happy':
+                      return '😄';
+                    case 'happy':
+                      return '😊';
+                    case 'neutral':
+                      return '😐';
+                    case 'sad':
+                      return '😢';
+                    case 'very-sad':
+                      return '😭';
+                    default:
+                      return null;
+                  }
+                };
+
+                return (
+                  <div className="mt-2 flex flex-wrap gap-1 text-[10px] font-semibold text-indigo-600">
+                    {entry?.mood && (
+                      <span className="flex items-center justify-center rounded-full bg-indigo-100 px-2 py-1 text-base leading-none">
+                        {getMoodIcon(entry.mood)}
+                      </span>
+                    )}
+                    {entry?.pills?.map((pill, i) => (
+                      <span
+                        key={`pill-${pill}-${i}`}
+                        className="rounded-full bg-indigo-100 px-2 py-1 text-[10px] font-medium text-indigo-600"
+                      >
+                        💊 {pill}
+                      </span>
+                    ))}
+                    {entry?.counsel?.map((counsel, i) => (
+                      <span
+                        key={`counsel-${counsel}-${i}`}
+                        className="rounded-full bg-violet-100 px-2 py-1 text-[10px] font-medium text-violet-700"
+                      >
+                        📞 {counsel}
+                      </span>
+                    ))}
+                    {entry?.diary && (
+                      <span className="rounded-full bg-amber-100 px-2 py-1 text-[10px] font-medium text-amber-700">
+                        📓 일기
+                      </span>
+                    )}
+                  </div>
+                );
+              }}
+            />
+          </div>
+        </section>
+
+        <aside className="flex flex-col gap-5 sm:gap-6">
+          <div className="rounded-3xl border border-white/20 bg-white/10 p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-base font-semibold text-white sm:text-lg">오늘 요약</h3>
+              <span className="text-[11px] font-medium text-white/70 sm:text-xs">{selectedDateLabel}</span>
+            </div>
+            <ul className="mt-4 space-y-2 text-xs text-white/90 sm:text-sm">
               <li>
-                기분: {
-                  todayEntry?.mood 
-                    ? (() => {
-                        switch (todayEntry.mood) {
-                          case 'very-happy': return '😄 매우 좋음';
-                          case 'happy': return '😊 좋음';
-                          case 'neutral': return '😐 보통';
-                          case 'sad': return '😢 나쁨';
-                          case 'very-sad': return '😭 매우 나쁨';
-                          default: return '없음';
-                        }
-                      })()
-                    : '없음'
-                }
+                기분:{' '}
+                {todayEntry?.mood
+                  ? (() => {
+                      switch (todayEntry.mood) {
+                        case 'very-happy':
+                          return '😄 매우 좋음';
+                        case 'happy':
+                          return '😊 좋음';
+                        case 'neutral':
+                          return '😐 보통';
+                        case 'sad':
+                          return '😢 나쁨';
+                        case 'very-sad':
+                          return '😭 매우 나쁨';
+                        default:
+                          return '없음';
+                      }
+                    })()
+                  : '없음'}
               </li>
               <li>💊 약: {todayEntry?.pills?.join(', ') || '없음'}</li>
               <li>🗣️ 상담: {todayEntry?.counsel?.join(', ') || '없음'}</li>
               <li>📓 일기: {todayEntry?.diary ? '작성됨' : '없음'}</li>
             </ul>
-            {selectedDate && (
-              <button className="edit-btn" onClick={() => setShowModal(true)}>
-                ✏️ 수정하기
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => setShowModal(true)}
+              className="mt-5 inline-flex items-center justify-center rounded-full border border-white/30 bg-white/15 px-4 py-2 text-xs font-medium text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-white/25 sm:text-sm"
+            >
+              ✏️ 수정하기
+            </button>
           </div>
 
-          <div className="box">
-            <h3>
-              {isToday(selectedDate) 
-                ? '오늘의 일기' 
-                : isFuture(selectedDate) 
-                ? '미래의 일기' 
+          <div className="rounded-3xl border border-white/20 bg-white/10 p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+            <h3 className="text-base font-semibold text-white sm:text-lg">
+              {isToday(selectedDate)
+                ? '오늘의 일기'
+                : isFuture(selectedDate)
+                ? '미래의 일기'
                 : '일기'}
             </h3>
-            {loading ? (
-              <p style={{ textAlign: 'center', padding: '20px', color: '#999' }}>
-                ⏳ 일기를 불러오는 중...
-              </p>
-            ) : !isToday(selectedDate) ? (
-              // 오늘이 아닌 경우 (과거 또는 미래)
-              todayEntry?.diaryText ? (
-                <>
-                  <p>{todayEntry.diaryText}</p>
-                  <p style={{ 
-                    marginTop: '10px', 
-                    fontSize: '0.9em', 
-                    color: '#999', 
-                    textAlign: 'center' 
-                  }}>
-                    {isFuture(selectedDate) 
-                      ? '⏰ 미래의 일기는 작성할 수 없습니다.' 
-                      : '🔒 과거의 일기는 수정할 수 없습니다.'}
+            <div className="mt-4 space-y-4 text-xs text-white/90 sm:text-sm">
+              {loading ? (
+                <p className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center text-white/70">
+                  ⏳ 일기를 불러오는 중...
+                </p>
+              ) : !isToday(selectedDate) ? (
+                todayEntry?.diaryText ? (
+                  <>
+                    <p className="rounded-2xl border border-white/10 bg-white/10 p-4 text-sm leading-6 text-white/90">
+                      {todayEntry.diaryText}
+                    </p>
+                    <p className="text-center text-[11px] text-white/70 sm:text-xs">
+                      {isFuture(selectedDate)
+                        ? '⏰ 미래의 일기는 작성할 수 없습니다.'
+                        : '🔒 과거의 일기는 수정할 수 없습니다.'}
+                    </p>
+                  </>
+                ) : (
+                  <p className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center text-white/70">
+                    {isFuture(selectedDate)
+                      ? '⏰ 미래의 일기는 작성할 수 없습니다.'
+                      : '📝 작성된 일기가 없습니다.'}
                   </p>
+                )
+              ) : todayEntry?.diaryText ? (
+                <>
+                  <p className="rounded-2xl border border-white/10 bg-white/10 p-4 text-sm leading-6 text-white/90">
+                    {todayEntry.diaryText}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleDiaryWrite}
+                    className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/15 px-4 py-2 text-xs font-medium text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-white/25 sm:text-sm"
+                  >
+                    ✏️ 일기 수정하기
+                  </button>
                 </>
               ) : (
-                <p style={{ 
-                  textAlign: 'center', 
-                  padding: '20px', 
-                  color: '#999' 
-                }}>
-                  {isFuture(selectedDate) 
-                    ? '⏰ 미래의 일기는 작성할 수 없습니다.' 
-                    : '📝 작성된 일기가 없습니다.'}
-                </p>
-              )
-            ) : todayEntry?.diaryText ? (
-              // 오늘 날짜이고 일기가 있는 경우
-              <>
-                <p>{todayEntry.diaryText}</p>
-                <button className="edit-btn" onClick={handleDiaryWrite}>
-                  ✏️ 일기 수정하기
-                </button>
-              </>
-            ) : (
-              // 오늘 날짜이고 일기가 없는 경우
-              <>
-                <p style={{ 
-                  textAlign: 'center', 
-                  padding: '20px', 
-                  color: '#999' 
-                }}>
-                  📝 아직 작성된 일기가 없습니다.
-                </p>
-                <button className="diary-save" onClick={handleDiaryWrite} style={{
-                  width: '100%',
-                  padding: '12px',
-                  marginTop: '10px',
-                  backgroundColor: '#007bff',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '16px'
-                }}>
-                  📝 일기 작성하기
-                </button>
-              </>
-            )}
+                <>
+                  <p className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center text-white/70">
+                    📝 아직 작성된 일기가 없습니다.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleDiaryWrite}
+                    className="inline-flex w-full items-center justify-center rounded-full bg-blue-500 px-4 py-3 text-xs font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-blue-600 sm:text-sm"
+                  >
+                    📝 일기 작성하기
+                  </button>
+                </>
+              )}
+            </div>
           </div>
 
-          <div className="box">
-            <h3>📊 이번 달 통계</h3>
-            <ul>
-              <li>💊 복약 이행률: {Math.round((entries.filter(e => e.pills && e.pills.length > 0).length / 30) * 100)}%</li>
-              <li>📝 일기 작성일: {entries.filter(e => e.diary).length}일</li>
-              <li>🗣️ 상담 참여일: {entries.filter(e => e.counsel && e.counsel.length > 0).length}일</li>
-              <li>📅 총 활동일: {new Set(entries.map(e => e.date)).size}일</li>
+          <div className="rounded-3xl border border-white/20 bg-white/10 p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+            <h3 className="text-base font-semibold text-white sm:text-lg">📊 이번 달 통계</h3>
+            <ul className="mt-4 space-y-2 text-xs text-white/85 sm:text-sm">
+              <li>
+                💊 복약 이행률:{' '}
+                {Math.round(
+                  (entries.filter((e) => e.pills && e.pills.length > 0).length / 30) * 100
+                )}
+                %
+              </li>
+              <li>📝 일기 작성일: {entries.filter((e) => e.diary).length}일</li>
+              <li>🗣️ 상담 참여일: {entries.filter((e) => e.counsel && e.counsel.length > 0).length}일</li>
+              <li>📅 총 활동일: {new Set(entries.map((e) => e.date)).size}일</li>
             </ul>
           </div>
-        </div>
+        </aside>
       </div>
 
       {showModal && (

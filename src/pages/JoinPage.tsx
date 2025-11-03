@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../constants";
-import "./JoinPage.css";
 
 const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
@@ -72,58 +71,103 @@ const JoinPage: React.FC = () => {
   };
 
   return (
-    <div className="join-page">
-      <div className="join-container">
-        <h2>회원 가입</h2>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-600 to-indigo-800 px-4 py-12 text-white sm:px-6 lg:py-16">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"25\" cy=\"25\" r=\"1\" fill=\"white\" opacity=\"0.08\"/><circle cx=\"75\" cy=\"75\" r=\"1\" fill=\"white\" opacity=\"0.08\"/><circle cx=\"50\" cy=\"10\" r=\"0.5\" fill=\"white\" opacity=\"0.08\"/><circle cx=\"10\" cy=\"60\" r=\"0.5\" fill=\"white\" opacity=\"0.08\"/><circle cx=\"90\" cy=\"40\" r=\"0.5\" fill=\"white\" opacity=\"0.08\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>')",
+        }}
+      />
 
-        <form onSubmit={handleSignUp}>
-          <label>아이디</label>
-          <input
-            type="text"
-            placeholder="아이디 (4자 이상)"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            minLength={4}
-          />
-          {username.length >= 4 && isUsernameValid === false && (
-            <p className="error-message">이미 사용 중인 아이디입니다.</p>
+      <div className="relative w-full max-w-lg rounded-3xl border border-white/20 bg-white/15 p-8 text-white shadow-2xl backdrop-blur-2xl sm:p-10 md:p-12">
+        <h2 className="mb-6 text-center text-2xl font-semibold tracking-tight text-transparent sm:text-3xl bg-gradient-to-r from-white to-indigo-100 bg-clip-text">
+          회원 가입
+        </h2>
+
+        <form className="space-y-5 sm:space-y-6" onSubmit={handleSignUp}>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-white/90 sm:text-base">
+              아이디
+            </label>
+            <input
+              className="w-full rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-sm text-white shadow-inner transition duration-200 placeholder:text-white/60 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40 sm:text-base"
+              type="text"
+              placeholder="아이디 (4자 이상)"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              minLength={4}
+            />
+            {username.length >= 4 && isUsernameValid === false && (
+              <p className="mt-2 rounded-lg border-l-4 border-rose-400 bg-rose-400/10 px-3 py-2 text-sm text-rose-200">
+                이미 사용 중인 아이디입니다.
+              </p>
+            )}
+            {username.length >= 4 && isUsernameValid === true && (
+              <p className="mt-2 rounded-lg border-l-4 border-emerald-400 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-200">
+                사용 가능한 아이디입니다.
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-white/90 sm:text-base">
+              비밀번호
+            </label>
+            <input
+              className="w-full rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-sm text-white shadow-inner transition duration-200 placeholder:text-white/60 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40 sm:text-base"
+              type="password"
+              placeholder="비밀번호 (4자 이상)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={4}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-white/90 sm:text-base">
+              이름
+            </label>
+            <input
+              className="w-full rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-sm text-white shadow-inner transition duration-200 placeholder:text-white/60 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40 sm:text-base"
+              type="text"
+              placeholder="이름"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-white/90 sm:text-base">
+              이메일
+            </label>
+            <input
+              className="w-full rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-sm text-white shadow-inner transition duration-200 placeholder:text-white/60 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40 sm:text-base"
+              type="email"
+              placeholder="이메일 주소"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          {error && (
+            <p className="rounded-lg border-l-4 border-rose-400 bg-rose-400/10 px-3 py-3 text-sm text-rose-200">
+              {error}
+            </p>
           )}
-          {username.length >= 4 && isUsernameValid === true && (
-            <p className="success-message">사용 가능한 아이디입니다.</p>
-          )}
 
-          <label>비밀번호</label>
-          <input
-            type="password"
-            placeholder="비밀번호 (4자 이상)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            minLength={4}
-          />
-
-          <label>이름</label>
-          <input
-            type="text"
-            placeholder="이름"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-            required
-          />
-
-          <label>이메일</label>
-          <input
-            type="email"
-            placeholder="이메일 주소"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
-          {error && <p className="error-message">{error}</p>}
-
-          <button type="submit" disabled={isUsernameValid === false}>회원가입</button>
+          <button
+            className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:bg-white/30 disabled:text-white/70 disabled:shadow-none sm:text-base"
+            type="submit"
+            disabled={isUsernameValid === false}
+          >
+            회원가입
+          </button>
         </form>
       </div>
     </div>

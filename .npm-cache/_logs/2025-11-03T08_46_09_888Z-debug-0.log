@@ -1,0 +1,28 @@
+0 verbose cli /opt/homebrew/Cellar/node/23.11.0/bin/node /opt/homebrew/lib/node_modules/npm/bin/npm-cli.js
+1 info using npm@10.9.2
+2 info using node@v23.11.0
+3 silly config load:file:/opt/homebrew/lib/node_modules/npm/npmrc
+4 silly config load:file:/Users/iminjun/Desktop/project/Dadokim_Front/.npmrc
+5 silly config load:file:/Users/iminjun/.npmrc
+6 silly config load:file:/opt/homebrew/etc/npmrc
+7 verbose title npm exec tailwindcss init -p
+8 verbose argv "exec" "--" "tailwindcss" "init" "-p"
+9 verbose logfile logs-max:10 dir:/Users/iminjun/Desktop/project/Dadokim_Front/.npm-cache/_logs/2025-11-03T08_46_09_888Z-
+10 verbose logfile /Users/iminjun/Desktop/project/Dadokim_Front/.npm-cache/_logs/2025-11-03T08_46_09_888Z-debug-0.log
+11 silly logfile done cleaning log files
+12 http fetch GET https://registry.npmjs.org/npm attempt 1 failed with ENOTFOUND
+13 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+14 verbose stack Error: could not determine executable to run
+14 verbose stack     at getBinFromManifest (/opt/homebrew/lib/node_modules/npm/node_modules/libnpmexec/lib/get-bin-from-manifest.js:17:23)
+14 verbose stack     at exec (/opt/homebrew/lib/node_modules/npm/node_modules/libnpmexec/lib/index.js:202:15)
+14 verbose stack     at async Npm.exec (/opt/homebrew/lib/node_modules/npm/lib/npm.js:207:9)
+14 verbose stack     at async module.exports (/opt/homebrew/lib/node_modules/npm/lib/cli/entry.js:74:5)
+15 verbose pkgid tailwindcss@4.1.16
+16 error could not determine executable to run
+17 verbose cwd /Users/iminjun/Desktop/project/Dadokim_Front
+18 verbose os Darwin 23.4.0
+19 verbose node v23.11.0
+20 verbose npm  v10.9.2
+21 verbose exit 1
+22 verbose code 1
+23 error A complete log of this run can be found in: /Users/iminjun/Desktop/project/Dadokim_Front/.npm-cache/_logs/2025-11-03T08_46_09_888Z-debug-0.log

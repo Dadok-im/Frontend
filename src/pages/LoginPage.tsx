@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { ROUTES } from "../constants";
-import "./LoginPage.css";
 
 const BACKEND_API_BASE_URL = import.meta.env.VITE_BACKEND_API_BASE_URL;
 
@@ -71,42 +70,75 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-container">
-        <h2>로그인</h2>
+    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-600 to-indigo-800 px-4 py-12 text-white sm:px-6 lg:py-16">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grain\" width=\"100\" height=\"100\" patternUnits=\"userSpaceOnUse\"><circle cx=\"25\" cy=\"25\" r=\"1\" fill=\"white\" opacity=\"0.08\"/><circle cx=\"75\" cy=\"75\" r=\"1\" fill=\"white\" opacity=\"0.08\"/><circle cx=\"50\" cy=\"10\" r=\"0.5\" fill=\"white\" opacity=\"0.08\"/><circle cx=\"10\" cy=\"60\" r=\"0.5\" fill=\"white\" opacity=\"0.08\"/><circle cx=\"90\" cy=\"40\" r=\"0.5\" fill=\"white\" opacity=\"0.08\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23grain)\"/></svg>')",
+        }}
+      />
 
-        <form onSubmit={handleLogin}>
-          <label>아이디</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+      <div className="relative w-full max-w-md rounded-3xl border border-white/20 bg-white/15 p-8 text-white shadow-2xl backdrop-blur-2xl sm:p-10 md:p-12">
+        <h2 className="mb-6 text-center text-2xl font-semibold tracking-tight text-transparent sm:text-3xl bg-gradient-to-r from-white to-indigo-100 bg-clip-text">
+          로그인
+        </h2>
 
-          <label>비밀번호</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+        <form className="space-y-5 sm:space-y-6" onSubmit={handleLogin}>
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-white/90 sm:text-base">
+              아이디
+            </label>
+            <input
+              className="w-full rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-sm text-white shadow-inner transition duration-200 placeholder:text-white/60 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40 sm:text-base"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
 
-          {error && <p className="error-message">{error}</p>}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-white/90 sm:text-base">
+              비밀번호
+            </label>
+            <input
+              className="w-full rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-sm text-white shadow-inner transition duration-200 placeholder:text-white/60 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40 sm:text-base"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
 
-          <button type="submit" className="login-btn">
+          {error && (
+            <p className="rounded-lg border-l-4 border-rose-400 bg-rose-400/10 px-3 py-3 text-sm text-rose-200">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="mt-6 w-full rounded-2xl bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl sm:text-base"
+          >
             로그인
           </button>
         </form>
 
-        {/* Naver 소셜 로그인 */}
         <button
-          className="naver-login-btn"
+          className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#03c75a] to-[#02b150] px-4 py-3 text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl sm:text-base"
           onClick={() => handleSocialLogin("naver")}
         >
           NAVER로 로그인
         </button>
 
-        <p className="signup-text">
-          아직 계정이 없으신가요? <a href={ROUTES.JOIN}>회원가입</a>
+        <p className="mt-8 text-center text-xs text-white/80 sm:text-sm">
+          아직 계정이 없으신가요?{" "}
+          <a
+            className="font-semibold text-white underline-offset-4 transition hover:underline"
+            href={ROUTES.JOIN}
+          >
+            회원가입
+          </a>
         </p>
       </div>
     </div>
