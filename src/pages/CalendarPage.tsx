@@ -133,36 +133,36 @@ const CalendarPage: React.FC = () => {
   }, [selectedDate, entries]);
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-400 text-white">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA]">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-95"
         style={{
           background:
-            'radial-gradient(circle at 20% 80%, rgba(120,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(255,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(120,219,255,0.2) 0%, transparent 55%)',
+            'radial-gradient(circle at 20% 80%, rgba(163,184,198,0.28) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(248,180,0,0.24) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(92,99,115,0.2) 0%, transparent 55%)',
         }}
       />
 
-      <nav className="relative z-10 flex items-center justify-center gap-4 border-b border-white/20 bg-white/10 px-4 py-5 backdrop-blur-2xl shadow-lg sm:px-5 sm:py-6">
+      <nav className="relative z-10 flex items-center justify-center gap-4 border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.08)] px-4 py-5 backdrop-blur-2xl shadow-lg sm:px-5 sm:py-6">
         <Link
           to={ROUTES.HOME}
-          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-medium text-white shadow-md transition duration-200 hover:-translate-y-1 hover:bg-white/25 sm:left-6 sm:text-sm"
+          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.12)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.22)] sm:left-6 sm:text-sm"
         >
           ← 홈으로
         </Link>
-        <h1 className="text-lg font-semibold tracking-tight text-transparent drop-shadow-xl sm:text-xl md:text-2xl bg-gradient-to-r from-white to-indigo-100 bg-clip-text">
+        <h1 className="text-lg font-semibold tracking-tight text-transparent drop-shadow-xl sm:text-xl md:text-2xl bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text">
           📅 다독임 캘린더
         </h1>
         {isAuthenticated && user?.nickname && (
-          <span className="hidden rounded-full border border-white/25 bg-white/15 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur lg:inline-flex">
+          <span className="hidden rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.12)] px-4 py-2 text-sm font-medium text-[#F5F7FA]/90 backdrop-blur lg:inline-flex">
             안녕하세요, {user.nickname}님!
           </span>
         )}
       </nav>
 
       <div className="relative z-10 mx-auto grid max-w-6xl gap-5 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <section className="rounded-3xl border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur-2xl sm:p-6">
-          <div className="rounded-2xl bg-white p-3 text-gray-900 shadow-xl sm:p-4">
+        <section className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-4 shadow-2xl backdrop-blur-2xl sm:p-6">
+          <div className="rounded-2xl bg-[#F5F7FA] p-3 text-[#1E1E1E] shadow-xl sm:p-4">
             <Calendar
               className="calendar-widget"
               onClickDay={onDateClick}
@@ -196,16 +196,16 @@ const CalendarPage: React.FC = () => {
                 };
 
                 return (
-                  <div className="mt-2 flex flex-wrap gap-1 text-[10px] font-semibold text-indigo-600">
+                  <div className="mt-2 flex flex-wrap gap-1 text-[10px] font-semibold text-[#4A5D73]">
                     {entry?.mood && (
-                      <span className="flex items-center justify-center rounded-full bg-indigo-100 px-2 py-1 text-base leading-none">
+                      <span className="flex items-center justify-center rounded-full bg-[#E1E8EF] px-2 py-1 text-base leading-none">
                         {getMoodIcon(entry.mood)}
                       </span>
                     )}
                     {entry?.pills?.map((pill, i) => (
                       <span
                         key={`pill-${pill}-${i}`}
-                        className="rounded-full bg-indigo-100 px-2 py-1 text-[10px] font-medium text-indigo-600"
+                        className="rounded-full bg-[#E1E8EF] px-2 py-1 text-[10px] font-medium text-[#4A5D73]"
                       >
                         💊 {pill}
                       </span>
@@ -213,7 +213,7 @@ const CalendarPage: React.FC = () => {
                     {entry?.counsel?.map((counsel, i) => (
                       <span
                         key={`counsel-${counsel}-${i}`}
-                        className="rounded-full bg-violet-100 px-2 py-1 text-[10px] font-medium text-violet-700"
+                        className="rounded-full bg-[#E8ECF2] px-2 py-1 text-[10px] font-medium text-[#5C6373]"
                       >
                         📞 {counsel}
                       </span>
@@ -231,12 +231,12 @@ const CalendarPage: React.FC = () => {
         </section>
 
         <aside className="flex flex-col gap-5 sm:gap-6">
-          <div className="rounded-3xl border border-white/20 bg-white/10 p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+          <div className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-5 shadow-xl backdrop-blur-2xl sm:p-6">
             <div className="flex items-center justify-between gap-3">
-              <h3 className="text-base font-semibold text-white sm:text-lg">오늘 요약</h3>
-              <span className="text-[11px] font-medium text-white/70 sm:text-xs">{selectedDateLabel}</span>
+              <h3 className="text-base font-semibold text-[#F5F7FA] sm:text-lg">오늘 요약</h3>
+              <span className="text-[11px] font-medium text-[#F5F7FA]/70 sm:text-xs">{selectedDateLabel}</span>
             </div>
-            <ul className="mt-4 space-y-2 text-xs text-white/90 sm:text-sm">
+            <ul className="mt-4 space-y-2 text-xs text-[#F5F7FA]/90 sm:text-sm">
               <li>
                 기분:{' '}
                 {todayEntry?.mood
@@ -265,39 +265,39 @@ const CalendarPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowModal(true)}
-              className="mt-5 inline-flex items-center justify-center rounded-full border border-white/30 bg-white/15 px-4 py-2 text-xs font-medium text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-white/25 sm:text-sm"
+              className="mt-5 inline-flex items-center justify-center rounded-full border border-[rgba(163,184,198,0.55)] bg-[rgba(245,247,250,0.18)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.28)] sm:text-sm"
             >
               ✏️ 수정하기
             </button>
           </div>
 
-          <div className="rounded-3xl border border-white/20 bg-white/10 p-5 shadow-xl backdrop-blur-2xl sm:p-6">
-            <h3 className="text-base font-semibold text-white sm:text-lg">
+          <div className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+            <h3 className="text-base font-semibold text-[#F5F7FA] sm:text-lg">
               {isToday(selectedDate)
                 ? '오늘의 일기'
                 : isFuture(selectedDate)
                 ? '미래의 일기'
                 : '일기'}
             </h3>
-            <div className="mt-4 space-y-4 text-xs text-white/90 sm:text-sm">
+            <div className="mt-4 space-y-4 text-xs text-[#F5F7FA]/90 sm:text-sm">
               {loading ? (
-                <p className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center text-white/70">
+                <p className="rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.12)] p-5 text-center text-[#F5F7FA]/70">
                   ⏳ 일기를 불러오는 중...
                 </p>
               ) : !isToday(selectedDate) ? (
                 todayEntry?.diaryText ? (
                   <>
-                    <p className="rounded-2xl border border-white/10 bg-white/10 p-4 text-sm leading-6 text-white/90">
+                    <p className="rounded-2xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.12)] p-4 text-sm leading-6 text-[#F5F7FA]/90">
                       {todayEntry.diaryText}
                     </p>
-                    <p className="text-center text-[11px] text-white/70 sm:text-xs">
+                    <p className="text-center text-[11px] text-[#F5F7FA]/70 sm:text-xs">
                       {isFuture(selectedDate)
                         ? '⏰ 미래의 일기는 작성할 수 없습니다.'
                         : '🔒 과거의 일기는 수정할 수 없습니다.'}
                     </p>
                   </>
                 ) : (
-                  <p className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center text-white/70">
+                  <p className="rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.12)] p-5 text-center text-[#F5F7FA]/70">
                     {isFuture(selectedDate)
                       ? '⏰ 미래의 일기는 작성할 수 없습니다.'
                       : '📝 작성된 일기가 없습니다.'}
@@ -305,26 +305,26 @@ const CalendarPage: React.FC = () => {
                 )
               ) : todayEntry?.diaryText ? (
                 <>
-                  <p className="rounded-2xl border border-white/10 bg-white/10 p-4 text-sm leading-6 text-white/90">
+                  <p className="rounded-2xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.12)] p-4 text-sm leading-6 text-[#F5F7FA]/90">
                     {todayEntry.diaryText}
                   </p>
                   <button
                     type="button"
                     onClick={handleDiaryWrite}
-                    className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/15 px-4 py-2 text-xs font-medium text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-white/25 sm:text-sm"
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(163,184,198,0.55)] bg-[rgba(245,247,250,0.18)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.28)] sm:text-sm"
                   >
                     ✏️ 일기 수정하기
                   </button>
                 </>
               ) : (
                 <>
-                  <p className="rounded-2xl border border-white/15 bg-white/10 p-5 text-center text-white/70">
+                  <p className="rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.12)] p-5 text-center text-[#F5F7FA]/70">
                     📝 아직 작성된 일기가 없습니다.
                   </p>
                   <button
                     type="button"
                     onClick={handleDiaryWrite}
-                    className="inline-flex w-full items-center justify-center rounded-full bg-blue-500 px-4 py-3 text-xs font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-blue-600 sm:text-sm"
+                    className="inline-flex w-full items-center justify-center rounded-full bg-[#4A5D73] px-4 py-3 text-xs font-semibold text-[#F5F7FA] shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#5C6373] sm:text-sm"
                   >
                     📝 일기 작성하기
                   </button>
@@ -333,9 +333,9 @@ const CalendarPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-white/20 bg-white/10 p-5 shadow-xl backdrop-blur-2xl sm:p-6">
-            <h3 className="text-base font-semibold text-white sm:text-lg">📊 이번 달 통계</h3>
-            <ul className="mt-4 space-y-2 text-xs text-white/85 sm:text-sm">
+          <div className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+            <h3 className="text-base font-semibold text-[#F5F7FA] sm:text-lg">📊 이번 달 통계</h3>
+            <ul className="mt-4 space-y-2 text-xs text-[#F5F7FA]/85 sm:text-sm">
               <li>
                 💊 복약 이행률:{' '}
                 {Math.round(

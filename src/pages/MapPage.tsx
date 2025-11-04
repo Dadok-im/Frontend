@@ -10,13 +10,13 @@ const DEFAULT = { lat: 37.5665, lng: 126.9780 };
 export default function MapPage() {
   const [center, setCenter] = useState(DEFAULT);        // 검색 기준점
   const [mapCenter, setMapCenter] = useState(DEFAULT);  // 화면 지도 중심(현 지도 재검색 기준)
-  const [q, setQ] = useState('정신건강의학과');
-  const keywordRef = useRef(q);
-  const boundsRef = useRef<MapBounds | null>(null);
-  const [fitNext] = useState(true);
+  const [, setBounds] = useState<MapBounds | null>(null);
   const [clinics, setClinics] = useState<Clinic[]>([]);
+  const [q, setQ] = useState('정신건강의학과');
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const keywordRef = useRef(q);
+  const boundsRef = useRef<MapBounds | null>(null);
 
   // 공용 검색 함수
   const fetchClinicsNow = useCallback(async (opt: {lat:number; lng:number; radius?:number|null; keyword:string}) => {
@@ -26,6 +26,7 @@ export default function MapPage() {
     try {
       const data = await searchClinics({ lat, lng, q: keyword, page: 1, size: 15, radius: rad as any });
       setClinics(Array.isArray(data) ? data : []);
+      setSelectedId(null);
     } catch (e) {
       console.error(e);
       setClinics([]);
@@ -88,9 +89,10 @@ export default function MapPage() {
 
   // 하단 지도: 현 지도에서 재검색
   const searchHere = () => {
+    setCenter(mapCenter);
     fetchClinicsNow({ lat: mapCenter.lat, lng: mapCenter.lng, keyword: q });
-    // setCenter를 호출하지 않음 - 무한 루프 방지
   };
+
 
   const handleIdleCenterChange = useCallback((nextCenter: typeof DEFAULT) => {
     setMapCenter((prev) => {
@@ -116,6 +118,7 @@ export default function MapPage() {
       return;
     }
     boundsRef.current = nextBounds;
+    setBounds(nextBounds);
   }, []);
 
 
@@ -128,40 +131,40 @@ export default function MapPage() {
   );
 
   return (
-    <div className="relative flex h-screen flex-col overflow-hidden bg-gradient-to-br from-[#1e3c72] via-[#667eea] to-[#f093fb] text-white">
+    <div className="relative flex h-screen flex-col overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA]">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-90"
         style={{
           background:
-            "radial-gradient(circle at 20% 80%, rgba(120,119,198,0.3) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(255,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(120,219,255,0.22) 0%, transparent 55%)",
+            "radial-gradient(circle at 20% 80%, rgba(163, 184, 198, 0.28) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(248, 180, 0, 0.22) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(92, 99, 115, 0.22) 0%, transparent 55%)",
         }}
       />
 
-      <nav className="relative z-10 flex items-center justify-center border-b border-white/20 bg-white/10 px-4 py-5 backdrop-blur-2xl shadow-lg sm:px-6">
+      <nav className="relative z-10 flex items-center justify-center border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.08)] px-4 py-5 backdrop-blur-2xl shadow-lg sm:px-6">
         <Link
           to={ROUTES.HOME}
-          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-white/25 bg-white/15 px-4 py-2 text-xs font-medium text-white shadow-md transition duration-200 hover:-translate-y-1 hover:bg-white/25 sm:left-6 sm:px-5 sm:text-sm"
+          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.12)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.2)] sm:left-6 sm:px-5 sm:text-sm"
         >
           ← 홈으로
         </Link>
-        <h1 className="text-xl font-semibold tracking-tight text-transparent drop-shadow-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-white to-indigo-100 bg-clip-text">
+        <h1 className="text-xl font-semibold tracking-tight text-transparent drop-shadow-xl sm:text-2xl md:text-3xl bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text">
           주변 병원 검색
         </h1>
       </nav>
 
       <div className="relative z-10 flex flex-1 flex-col overflow-hidden md:flex-row">
-        <aside className="flex h-full w-full flex-col border-b border-white/20 bg-white/10 p-5 backdrop-blur-2xl shadow-2xl sm:p-6 md:w-[360px] md:border-b-0 md:border-r md:p-8">
+        <aside className="flex h-full w-full flex-col border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.1)] p-5 backdrop-blur-2xl shadow-2xl sm:p-6 md:w-[360px] md:border-b-0 md:border-r md:p-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
             <input
-              className="w-full rounded-2xl border border-white/30 bg-white/15 px-4 py-3 text-sm text-white placeholder:text-white/70 shadow-inner transition duration-200 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white/40 sm:flex-1"
+              className="w-full rounded-2xl border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.15)] px-4 py-3 text-sm text-[#F5F7FA] placeholder:text-[#F5F7FA]/70 shadow-inner transition duration-200 focus:border-[#F5F7FA] focus:bg-[rgba(245,247,250,0.22)] focus:outline-none focus:ring-2 focus:ring-[rgba(245,247,250,0.45)] sm:flex-1"
               value={q}
               onChange={e => setQ(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') startSearch(); }}
               placeholder="검색어 (정신건강의학과 등)"
             />
             <button
-              className="rounded-2xl bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:bg-white/30 disabled:text-white/70 disabled:shadow-none sm:text-base"
+              className="rounded-2xl bg-gradient-to-r from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] px-4 py-3 text-sm font-semibold text-[#F5F7FA] shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:bg-[rgba(245,247,250,0.2)] disabled:text-[#F5F7FA]/60 disabled:shadow-none sm:text-base"
               onClick={startSearch}
               disabled={loading}
             >
@@ -169,11 +172,11 @@ export default function MapPage() {
             </button>
           </div>
 
-          <div className="mt-5 rounded-2xl border-l-4 border-white/40 bg-white/15 px-3 py-4 text-xs text-white/85 shadow-inner backdrop-blur sm:px-4 sm:text-sm">
+          <div className="mt-5 rounded-2xl border-l-4 border-[rgba(248,180,0,0.6)] bg-[rgba(245,247,250,0.12)] px-3 py-4 text-xs text-[#F5F7FA]/85 shadow-inner backdrop-blur sm:px-4 sm:text-sm">
             ※ 본 서비스는 의료행위가 아니며, 응급 시 112/119 또는 1393(자살예방)을 이용하세요.
           </div>
 
-          <div className="mt-5 text-xs font-semibold uppercase tracking-wider text-indigo-100 sm:text-sm">
+          <div className="mt-5 text-xs font-semibold uppercase tracking-wider text-[#A3B8C6] sm:text-sm">
             결과 {list.length}건
           </div>
 
@@ -184,25 +187,25 @@ export default function MapPage() {
                 <div
                   key={c.id}
                   onClick={() => { setSelectedId(c.id); setCenter({ lat:c.lat, lng:c.lng }); }}
-                  className={`group cursor-pointer rounded-2xl border border-white/20 bg-white/12 p-4 shadow-lg backdrop-blur transition duration-200 hover:-translate-y-1 hover:bg-white/20 hover:shadow-2xl sm:p-5 ${isSelected ? 'border-white/60 bg-white/25 shadow-2xl' : ''}`}
+                  className={`group cursor-pointer rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-4 shadow-lg backdrop-blur transition duration-200 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.2)] hover:shadow-2xl sm:p-5 ${isSelected ? 'border-[rgba(245,247,250,0.75)] bg-[rgba(245,247,250,0.25)] shadow-2xl' : ''}`}
                 >
-                  <div className="text-base font-semibold text-white sm:text-lg">
+                  <div className="text-base font-semibold text-[#F5F7FA] sm:text-lg">
                     {c.name}
                   </div>
-                  <div className="mt-1 text-xs text-white/80 sm:text-sm">
+                  <div className="mt-1 text-xs text-[#F5F7FA]/80 sm:text-sm">
                     {c.roadAddress || c.address}
                   </div>
                   {c.phone && (
-                    <div className="mt-1 text-xs text-white/70 sm:text-sm">
+                    <div className="mt-1 text-xs text-[#F5F7FA]/70 sm:text-sm">
                       {c.phone}
                     </div>
                   )}
-                  <div className="mt-2 text-[11px] font-medium uppercase tracking-wide text-white/60">
+                  <div className="mt-2 text-[11px] font-medium uppercase tracking-wide text-[#F5F7FA]/60">
                     {typeof c.distance === 'number' ? `${c.distance} m` : ''}
                   </div>
                   <div className="mt-4 flex gap-2 text-xs sm:gap-3 sm:text-sm">
                     <a
-                      className="rounded-full border border-white/30 bg-white/15 px-3 py-1.5 text-white transition duration-200 hover:bg-white/25"
+                      className="rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.15)] px-3 py-1.5 text-[#F5F7FA] transition duration-200 hover:bg-[rgba(245,247,250,0.25)]"
                       href={c.placeUrl}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -211,7 +214,7 @@ export default function MapPage() {
                     </a>
                     {c.phone && (
                       <a
-                        className="rounded-full border border-white/30 bg-white/15 px-3 py-1.5 text-white transition duration-200 hover:bg-white/25"
+                        className="rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.15)] px-3 py-1.5 text-[#F5F7FA] transition duration-200 hover:bg-[rgba(245,247,250,0.25)]"
                         href={`tel:${c.phone}`}
                       >
                         전화걸기
@@ -223,14 +226,14 @@ export default function MapPage() {
             })}
 
             {list.length === 0 && !loading && (
-              <div className="rounded-2xl border border-white/20 bg-white/10 p-5 text-center text-xs text-white/80 backdrop-blur sm:p-6 sm:text-sm">
+              <div className="rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.1)] p-5 text-center text-xs text-[#F5F7FA]/80 backdrop-blur sm:p-6 sm:text-sm">
                 주변 검색 결과가 없습니다.
               </div>
             )}
           </div>
         </aside>
 
-        <section className="relative flex flex-1 flex-col overflow-hidden border-t border-white/20 bg-white/95 text-gray-900 md:border-l md:border-t-0">
+        <section className="relative flex flex-1 flex-col overflow-hidden border-t border-[rgba(163,184,198,0.35)] bg-[#F5F7FA] text-[#1E1E1E] md:border-l md:border-t-0">
           <div className="relative flex-1">
             <MapView
               center={center}
@@ -238,7 +241,7 @@ export default function MapPage() {
               onMarkerClick={c => setSelectedId(c.id)}
               onIdleCenterChange={handleIdleCenterChange}
               onIdleBoundsChange={handleIdleBoundsChange}
-              fitToMarkers={fitNext}
+              fitToMarkers={false}
             />
           </div>
 
@@ -247,11 +250,12 @@ export default function MapPage() {
               type="button"
               onClick={searchHere}
               disabled={loading}
-              className="pointer-events-auto flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[11px] font-medium text-gray-700 shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-gray-100 disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:shadow-none sm:text-xs"
+              className="pointer-events-auto flex items-center gap-2 rounded-full border border-[rgba(163,184,198,0.75)] bg-white px-4 py-2 text-[11px] font-medium text-[#5C6373] shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#F5F7FA] disabled:cursor-not-allowed disabled:border-[rgba(163,184,198,0.4)] disabled:bg-[#F5F7FA] disabled:text-[#5C6373]/60 disabled:shadow-none sm:text-xs"
             >
               {loading ? "검색중…" : "현 지도에서 재검색"}
             </button>
           </div>
+
         </section>
       </div>
     </div>

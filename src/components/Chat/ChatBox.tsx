@@ -23,7 +23,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, loading, isDark }) => {
     <div
       ref={chatBoxRef}
       className={`flex flex-1 flex-col gap-3 overflow-y-auto px-3 py-4 text-sm leading-relaxed scroll-smooth sm:px-4 sm:py-5 ${
-        isDark ? "text-slate-100" : "text-slate-800"
+        isDark ? "text-[#F5F7FA]" : "text-[#1E1E1E]"
       }`}
     >
       {messages.map((message, index) => (
@@ -34,8 +34,8 @@ const ChatBox: React.FC<ChatBoxProps> = ({ messages, loading, isDark }) => {
           <div
             className={`rounded-2xl border px-4 py-2 text-xs sm:text-sm ${
               isDark
-                ? "border-slate-700 bg-slate-800/90 text-slate-100"
-                : "border-slate-200 bg-white/90 text-slate-700"
+                ? "border-[rgba(74,93,115,0.5)] bg-[rgba(46,54,66,0.88)] text-[#F5F7FA]"
+                : "border-[rgba(163,184,198,0.55)] bg-[rgba(245,247,250,0.9)] text-[#4A5D73]"
             }`}
           >
             ... 답변 작성 중

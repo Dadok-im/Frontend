@@ -132,8 +132,8 @@ const DiaryPage: React.FC = () => {
                 }
               : undefined
           }
-          className={`rounded-2xl border border-white/20 bg-white/10 px-6 py-4 text-base font-semibold text-white shadow-md transition duration-200 hover:-translate-y-1 hover:border-white/40 hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white/40 ${
-            selected ? 'scale-[1.02] shadow-2xl' : 'bg-white/10 text-white'
+          className={`rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] px-6 py-4 text-base font-semibold text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-1 hover:border-[rgba(245,247,250,0.45)] hover:shadow-2xl focus:outline-none focus:ring-2 focus:ring-[rgba(245,247,250,0.35)] ${
+            selected ? 'scale-[1.02] shadow-2xl' : ''
           }`}
         >
           {option.label}
@@ -143,25 +143,25 @@ const DiaryPage: React.FC = () => {
 
   if (!isAuthenticated) {
     return (
-      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#1e3c72] via-[#667eea] to-[#f093fb] px-4 py-12 text-white sm:px-6 lg:py-16">
+      <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] px-4 py-12 text-[#F5F7FA] sm:px-6 lg:py-16">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-95"
           style={{
             background:
-              "radial-gradient(circle at 20% 80%, rgba(120,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(255,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(120,219,255,0.2) 0%, transparent 55%)",
+              "radial-gradient(circle at 20% 80%, rgba(163, 184, 198, 0.28) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(248, 180, 0, 0.24) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(92, 99, 115, 0.2) 0%, transparent 55%)",
           }}
         />
-        <div className="relative w-full max-w-sm rounded-3xl border border-white/20 bg-white/15 p-8 text-center text-white shadow-2xl backdrop-blur-2xl sm:max-w-md sm:p-10">
-          <h2 className="text-xl font-semibold tracking-tight text-transparent sm:text-2xl bg-gradient-to-r from-white to-indigo-100 bg-clip-text">
+        <div className="relative w-full max-w-sm rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-8 text-center text-[#F5F7FA] shadow-2xl backdrop-blur-2xl sm:max-w-md sm:p-10">
+          <h2 className="text-xl font-semibold tracking-tight text-transparent sm:text-2xl bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text">
             로그인이 필요합니다
           </h2>
-          <p className="mt-4 text-xs text-white/80 sm:text-sm">
+          <p className="mt-4 text-xs text-[#F5F7FA]/80 sm:text-sm">
             일기 작성 기능을 이용하려면 먼저 로그인해주세요.
           </p>
           <Link
             to={ROUTES.LOGIN}
-            className="mt-7 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 px-5 py-3 text-xs font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl sm:px-6 sm:text-sm"
+            className="mt-7 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] px-5 py-3 text-xs font-semibold text-[#F5F7FA] shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl sm:px-6 sm:text-sm"
           >
             로그인하기
           </Link>
@@ -171,37 +171,37 @@ const DiaryPage: React.FC = () => {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#1e3c72] via-[#667eea] to-[#f093fb] px-4 py-8 text-white sm:px-6 md:py-10 lg:py-12">
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] px-4 py-8 text-[#F5F7FA] sm:px-6 md:py-10 lg:py-12">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-95"
         style={{
           background:
-            "radial-gradient(circle at 20% 80%, rgba(120,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(255,119,198,0.28) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(120,219,255,0.2) 0%, transparent 55%)",
+            "radial-gradient(circle at 20% 80%, rgba(163, 184, 198, 0.28) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(248, 180, 0, 0.24) 0%, transparent 55%), radial-gradient(circle at 45% 40%, rgba(92, 99, 115, 0.2) 0%, transparent 55%)",
         }}
       />
 
-      <nav className="relative z-10 mx-auto grid w-full max-w-3xl grid-cols-1 items-center gap-4 rounded-3xl border border-white/20 bg-white/15 px-4 py-5 text-center shadow-2xl backdrop-blur-2xl sm:grid-cols-[auto_1fr_auto] sm:px-6 sm:text-left">
+      <nav className="relative z-10 mx-auto grid w-full max-w-3xl grid-cols-1 items-center gap-4 rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] px-4 py-5 text-center shadow-2xl backdrop-blur-2xl sm:grid-cols-[auto_1fr_auto] sm:px-6 sm:text-left">
         <button
           onClick={handleCancel}
-          className="mx-auto rounded-full border border-white/30 bg-white/15 px-4 py-2 text-xs font-semibold text-white shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-white/25 sm:mx-0 sm:text-sm"
+          className="mx-auto rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.12)] px-4 py-2 text-xs font-semibold text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.22)] sm:mx-0 sm:text-sm"
         >
           ← 취소
         </button>
         <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-lg font-semibold tracking-tight text-transparent drop-shadow-xl bg-gradient-to-r from-white to-indigo-100 bg-clip-text sm:text-xl md:text-2xl">
+          <h1 className="text-lg font-semibold tracking-tight text-transparent drop-shadow-xl bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text sm:text-xl md:text-2xl">
             📝 오늘의 일기
           </h1>
-          <span className="text-[11px] font-medium text-white/80 sm:text-xs md:text-sm">
+          <span className="text-[11px] font-medium text-[#F5F7FA]/80 sm:text-xs md:text-sm">
             {formattedDate}
           </span>
         </div>
         <div className="h-4 w-4 opacity-0" />
       </nav>
 
-      <div className="relative z-10 mx-auto mt-8 w-full max-w-3xl rounded-3xl border border-white/20 bg-white/12 p-6 shadow-2xl backdrop-blur-2xl sm:p-8 md:p-10">
+      <div className="relative z-10 mx-auto mt-8 w-full max-w-3xl rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-6 shadow-2xl backdrop-blur-2xl sm:p-8 md:p-10">
         <section>
-          <h2 className="text-center text-base font-semibold tracking-tight text-white sm:text-lg">
+          <h2 className="text-center text-base font-semibold tracking-tight text-[#F5F7FA] sm:text-lg">
             오늘의 기분은 어떠셨나요?
           </h2>
           <div className="mt-5 grid gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4">
@@ -210,15 +210,15 @@ const DiaryPage: React.FC = () => {
         </section>
 
         <section className="mt-10">
-          <h2 className="text-base font-semibold text-white sm:text-lg">오늘 하루는 어떠셨나요?</h2>
+          <h2 className="text-base font-semibold text-[#F5F7FA] sm:text-lg">오늘 하루는 어떠셨나요?</h2>
           <textarea
-            className="mt-4 w-full rounded-3xl border border-white/20 bg-white/10 px-4 py-4 text-xs leading-6 text-white shadow-inner transition duration-200 placeholder:text-white/60 focus:border-white focus:bg-white/15 focus:outline-none focus:ring-2 focus:ring-white/40 sm:px-5 sm:text-sm"
+            className="mt-4 w-full rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] px-4 py-4 text-xs leading-6 text-[#F5F7FA] shadow-inner transition duration-200 placeholder:text-[#F5F7FA]/60 focus:border-[#F5F7FA] focus:bg-[rgba(245,247,250,0.2)] focus:outline-none focus:ring-2 focus:ring-[rgba(245,247,250,0.35)] sm:px-5 sm:text-sm"
             placeholder="오늘의 일기를 자유롭게 작성해보세요..."
             value={diaryText}
             onChange={(e) => setDiaryText(e.target.value)}
             rows={12}
           />
-          <div className="mt-2 text-right text-xs font-medium text-white/70">
+          <div className="mt-2 text-right text-xs font-medium text-[#F5F7FA]/70">
             {diaryText.length}자
           </div>
         </section>
@@ -227,7 +227,7 @@ const DiaryPage: React.FC = () => {
           <button
             onClick={handleSave}
             disabled={saving || !mood || !diaryText.trim()}
-            className="inline-flex min-w-[260px] items-center justify-center rounded-full bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:bg-white/30 disabled:text-white/70 disabled:shadow-none"
+            className="inline-flex min-w-[260px] items-center justify-center rounded-full bg-gradient-to-r from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] px-6 py-3 text-sm font-semibold text-[#F5F7FA] shadow-lg transition duration-200 hover:-translate-y-0.5 hover:shadow-2xl disabled:cursor-not-allowed disabled:bg-[rgba(245,247,250,0.2)] disabled:text-[#F5F7FA]/70 disabled:shadow-none"
           >
             {saving ? '저장 중...' : '💾 일기 저장하기'}
           </button>

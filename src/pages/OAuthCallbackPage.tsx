@@ -46,8 +46,8 @@ const OAuthCallbackPage: React.FC = () => {
       justifyContent: 'center', 
       alignItems: 'center', 
       height: '100vh',
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      color: 'white',
+      background: 'linear-gradient(135deg, #4A5D73 0%, #A3B8C6 100%)',
+      color: '#F5F7FA',
       fontSize: '1.2rem'
     }}>
       로그인 처리 중...

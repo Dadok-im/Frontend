@@ -15,10 +15,10 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isDark }) => {
 
   const bubbleBase =
     "max-w-[80%] rounded-2xl px-4 py-3 text-xs sm:text-sm leading-relaxed shadow-sm";
-  const userBubble = "bg-indigo-500 text-white rounded-br-md";
+  const userBubble = "bg-[#4A5D73] text-[#F5F7FA] rounded-br-md";
   const assistantBubble = isDark
-    ? "border border-slate-700 bg-slate-800/90 text-slate-100 rounded-bl-md"
-    : "border border-slate-200 bg-white/90 text-slate-800 rounded-bl-md";
+    ? "border border-[rgba(74,93,115,0.5)] bg-[rgba(46,54,66,0.88)] text-[#F5F7FA] rounded-bl-md"
+    : "border border-[rgba(163,184,198,0.55)] bg-[rgba(245,247,250,0.9)] text-[#1E1E1E] rounded-bl-md";
 
   return (
     <div
@@ -28,7 +28,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isDark }) => {
         <img
           src={avatarUrl}
           alt="assistant"
-          className="h-8 w-8 rounded-full border border-white/30 object-cover shadow-sm sm:h-9 sm:w-9"
+          className="h-8 w-8 rounded-full border border-[rgba(163,184,198,0.55)] object-cover shadow-sm sm:h-9 sm:w-9"
         />
       )}
       <div className={`${bubbleBase} ${isUser ? userBubble : assistantBubble}`}>
@@ -38,7 +38,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isDark }) => {
         <img
           src={avatarUrl}
           alt="user"
-          className="h-8 w-8 rounded-full border border-white/30 object-cover shadow-sm sm:h-9 sm:w-9"
+          className="h-8 w-8 rounded-full border border-[rgba(163,184,198,0.55)] object-cover shadow-sm sm:h-9 sm:w-9"
         />
       )}
     </div>

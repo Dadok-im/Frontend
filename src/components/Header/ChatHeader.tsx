@@ -44,16 +44,16 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   };
 
   const containerStyles = darkMode
-    ? "bg-slate-900/90 border-slate-800 text-slate-200"
-    : "bg-white/95 border-slate-200 text-slate-600";
+    ? "bg-[#2E3642]/90 border-[rgba(74,93,115,0.6)] text-[#F5F7FA]"
+    : "bg-[rgba(245,247,250,0.95)] border-[rgba(163,184,198,0.6)] text-[#1E1E1E]";
 
   const dropdownStyles = darkMode
-    ? "bg-slate-900/95 border-slate-700 text-slate-100"
-    : "bg-white border-slate-200 text-slate-700";
+    ? "bg-[#2E3642]/95 border-[rgba(74,93,115,0.5)] text-[#F5F7FA]"
+    : "bg-[#F5F7FA] border-[rgba(163,184,198,0.5)] text-[#1E1E1E]";
 
   const inactiveModelStyles = darkMode
-    ? "border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700"
-    : "border-slate-200 bg-white text-slate-700 hover:bg-slate-100";
+    ? "border-[rgba(74,93,115,0.5)] bg-[rgba(74,93,115,0.25)] text-[#F5F7FA]/85 hover:bg-[rgba(74,93,115,0.35)]"
+    : "border-[rgba(163,184,198,0.6)] bg-[rgba(245,247,250,0.65)] text-[#4A5D73] hover:bg-[rgba(245,247,250,0.85)]";
 
   return (
     <header
@@ -63,7 +63,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
 
       <button
         type="button"
-        className="flex flex-col gap-1 rounded-md px-2 py-1 transition duration-150 hover:bg-white/10 sm:hidden"
+        className="flex flex-col gap-1 rounded-md px-2 py-1 transition duration-150 hover:bg-[rgba(245,247,250,0.18)] sm:hidden"
         onClick={() => setMenuOpen(!menuOpen)}
         aria-label="설정 메뉴 열기"
       >
@@ -74,7 +74,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
 
       <div className="hidden items-center gap-4 sm:flex">
         <div className="flex items-center gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wide text-indigo-200 sm:text-sm">
+          <span className="text-xs font-semibold uppercase tracking-wide text-[#A3B8C6] sm:text-sm">
             모델
           </span>
           <div className="flex gap-2">
@@ -82,7 +82,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
               type="button"
               onClick={() => handleModelChange("chat")}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
-                model === "chat" ? "bg-indigo-500 text-white shadow-lg" : inactiveModelStyles
+                model === "chat" ? "bg-[#4A5D73] text-[#F5F7FA] shadow-lg" : inactiveModelStyles
               }`}
             >
               ChatGPT
@@ -91,7 +91,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
               type="button"
               onClick={() => handleModelChange("gemini")}
               className={`rounded-full px-3 py-1.5 text-xs font-medium transition ${
-                model === "gemini" ? "bg-indigo-500 text-white shadow-lg" : inactiveModelStyles
+                model === "gemini" ? "bg-[#4A5D73] text-[#F5F7FA] shadow-lg" : inactiveModelStyles
               }`}
             >
               Gemini
@@ -101,7 +101,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
         <button
           type="button"
           onClick={handleClearMessages}
-          className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-white/10"
+          className="rounded-full border border-[rgba(163,184,198,0.45)] px-3 py-1.5 text-xs font-semibold text-[#F5F7FA] transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.18)]"
         >
           대화 초기화
         </button>
@@ -109,17 +109,19 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
           type="button"
           onClick={handleToggleTheme}
           className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-medium transition ${
-            darkMode ? "bg-indigo-500/30 text-indigo-100" : "bg-white/20 text-slate-700"
+            darkMode
+              ? "bg-[rgba(74,93,115,0.35)] text-[#A3B8C6]"
+              : "bg-[rgba(245,247,250,0.6)] text-[#4A5D73]"
           }`}
         >
           다크 모드
           <span
             className={`relative inline-flex h-5 w-9 items-center rounded-full transition ${
-              darkMode ? "bg-indigo-500" : "bg-slate-300"
+              darkMode ? "bg-[#4A5D73]" : "bg-[#A3B8C6]"
             }`}
           >
             <span
-              className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
+              className={`inline-block h-4 w-4 transform rounded-full bg-[#F5F7FA] transition ${
                 darkMode ? "translate-x-4" : "translate-x-1"
               }`}
             />
@@ -133,7 +135,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
         >
           <div className="flex flex-col gap-4 p-4 text-sm">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-indigo-200">
+              <p className="text-xs font-semibold uppercase tracking-wide text-[#A3B8C6]">
                 모델 선택
               </p>
               <div className="mt-3 flex gap-2">
@@ -141,7 +143,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
               type="button"
               onClick={() => handleModelChange("chat")}
               className={`flex-1 rounded-full px-3 py-2 text-xs font-medium transition ${
-                model === "chat" ? "bg-indigo-500 text-white shadow-lg" : inactiveModelStyles
+                model === "chat" ? "bg-[#4A5D73] text-[#F5F7FA] shadow-lg" : inactiveModelStyles
               }`}
             >
               ChatGPT
@@ -150,7 +152,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
               type="button"
               onClick={() => handleModelChange("gemini")}
               className={`flex-1 rounded-full px-3 py-2 text-xs font-medium transition ${
-                model === "gemini" ? "bg-indigo-500 text-white shadow-lg" : inactiveModelStyles
+                model === "gemini" ? "bg-[#4A5D73] text-[#F5F7FA] shadow-lg" : inactiveModelStyles
               }`}
             >
               Gemini
@@ -161,7 +163,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
         <button
           type="button"
           onClick={handleClearMessages}
-          className="rounded-full border border-white/20 px-3 py-2 text-xs font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-white/10"
+          className="rounded-full border border-[rgba(163,184,198,0.45)] px-3 py-2 text-xs font-semibold text-[#F5F7FA] transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.18)]"
         >
           대화 초기화
         </button>
@@ -170,17 +172,19 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
           type="button"
           onClick={handleToggleTheme}
           className={`flex items-center justify-between rounded-full px-3 py-2 text-xs font-medium transition ${
-            darkMode ? "bg-indigo-500/30 text-indigo-100" : "bg-white/20 text-slate-700"
+            darkMode
+              ? "bg-[rgba(74,93,115,0.35)] text-[#A3B8C6]"
+              : "bg-[rgba(245,247,250,0.6)] text-[#4A5D73]"
           }`}
         >
               <span>다크 모드</span>
               <span
                 className={`relative inline-flex h-5 w-9 items-center rounded-full transition ${
-                  darkMode ? "bg-indigo-500" : "bg-slate-300"
+                  darkMode ? "bg-[#4A5D73]" : "bg-[#A3B8C6]"
                 }`}
               >
                 <span
-                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
+                  className={`inline-block h-4 w-4 transform rounded-full bg-[#F5F7FA] transition ${
                     darkMode ? "translate-x-4" : "translate-x-1"
                   }`}
                 />

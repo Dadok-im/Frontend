@@ -14,7 +14,7 @@ interface MapViewProps {
   onMarkerClick?: (clinic: Clinic) => void;
   onIdleCenterChange?: (c: MapCenter) => void;
   onIdleBoundsChange?: (b: MapBounds) => void; 
-  fitToMarkers?: boolean; 
+  fitToMarkers?: boolean;
 } 
  
 const MapView: React.FC<MapViewProps> = ({ 
@@ -23,7 +23,7 @@ const MapView: React.FC<MapViewProps> = ({
   onMarkerClick, 
   onIdleCenterChange, 
   onIdleBoundsChange, 
-  fitToMarkers = true, 
+  fitToMarkers = true,
 }) => { 
   const mapRef = useRef<HTMLDivElement | null>(null); 
   const kakaoMapRef = useRef<any>(null); 
@@ -42,13 +42,13 @@ const MapView: React.FC<MapViewProps> = ({
   useEffect(() => { idleBoundsCbRef.current = onIdleBoundsChange ?? null; }, [onIdleBoundsChange]);
 
   const infoHtml = (c: Clinic) => `
-    <div style="padding:8px 10px;max-width:260px;box-sizing:border-box;border:1px solid #ddd;border-radius:10px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12);">
+    <div style="padding:8px 10px;max-width:260px;box-sizing:border-box;border:1px solid #A3B8C6;border-radius:10px;background:#F5F7FA;box-shadow:0 2px 8px rgba(74,93,115,0.18);">
       <div style="font-weight:700">${c.name}</div>
       <div style="font-size:12px">${c.roadAddress || c.address || ''}</div>
       <div style="font-size:12px">${c.phone ? '☎ ' + c.phone : ''}</div>
       <div style="margin-top:6px;display:flex;gap:10px;flex-wrap:wrap">
-        <a href="${c.placeUrl}" target="_blank" rel="noreferrer" style="border:1px solid #e5e7eb;border-radius:8px;padding:6px 8px;">상세보기</a>
-        ${c.phone ? `<a href="tel:${c.phone}" style="border:1px solid #e5e7eb;border-radius:8px;padding:6px 8px;">전화걸기</a>` : ''}
+        <a href="${c.placeUrl}" target="_blank" rel="noreferrer" style="border:1px solid rgba(163,184,198,0.6);border-radius:8px;padding:6px 8px;color:#4A5D73;">상세보기</a>
+        ${c.phone ? `<a href="tel:${c.phone}" style="border:1px solid rgba(163,184,198,0.6);border-radius:8px;padding:6px 8px;color:#4A5D73;">전화걸기</a>` : ''}
       </div>
     </div>`;
 
@@ -66,12 +66,14 @@ const MapView: React.FC<MapViewProps> = ({
           level: 4,
         });
         kakaoMapRef.current = map;
+        map.setZoomable(true);
+        map.setDraggable(true);
 
         // 현재 위치 마커
         const svg = encodeURIComponent(
           `<svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-             <circle cx="12" cy="12" r="7" fill="#ed2f38ff" opacity="0.12"/>
-             <circle cx="12" cy="12" r="4" fill="#ed2f38ff"/>
+             <circle cx="12" cy="12" r="7" fill="#F8B400" opacity="0.2"/>
+             <circle cx="12" cy="12" r="4" fill="#F8B400"/>
            </svg>`
         );
         const img = new kakao.maps.MarkerImage(
@@ -160,7 +162,21 @@ const MapView: React.FC<MapViewProps> = ({
     const map = kakaoMapRef.current;
     if (!kakao || !map) return;
     const pos = new kakao.maps.LatLng(center.lat, center.lng);
-    map.setCenter(pos);
+    if (typeof map.getCenter === 'function') {
+      const current = map.getCenter();
+      if (
+        Math.abs(current.getLat() - center.lat) < 0.00001 &&
+        Math.abs(current.getLng() - center.lng) < 0.00001
+      ) {
+        userMarkerRef.current?.setPosition(pos);
+        return;
+      }
+    }
+    if (typeof map.panTo === 'function') {
+      map.panTo(pos);
+    } else {
+      map.setCenter(pos);
+    }
     userMarkerRef.current?.setPosition(pos);
   }, [center.lat, center.lng]);
 
@@ -198,7 +214,7 @@ const MapView: React.FC<MapViewProps> = ({
   }, [clinics, onMarkerClick, fitToMarkers]);
 
   return (
-    <div ref={mapRef} style={{ width:'100%', height:'100%', borderRadius:16, border:'1px solid #ddd' }} />
+    <div ref={mapRef} style={{ width:'100%', height:'100%', borderRadius:16, border:'1px solid #A3B8C6' }} />
   );
 };
 
