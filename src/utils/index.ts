@@ -42,7 +42,7 @@ export const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, E
 };
 
 // JWT 토큰 관련 유틸리티 함수들
-export { fetchWithAccess, refreshAccessToken } from './fetchUtil';
+export { fetchWithAccess, refreshAccessToken } from "./fetchWithAccess";
 
 /**
  * 쿠키에서 값을 가져오는 함수

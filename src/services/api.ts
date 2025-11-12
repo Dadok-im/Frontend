@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL, API_ENDPOINTS } from "../constants";
-import { refreshAccessToken, fetchWithAccess } from "../utils";
+import { fetchWithAccess } from "../utils";
 import type { ChatApiResponse, Clinic } from "../types";
 
 // =============================

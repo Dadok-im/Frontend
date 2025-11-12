@@ -108,7 +108,11 @@ input:focus, textarea:focus {
   }
 
   .calendar-widget .react-calendar__tile {
-    @apply rounded-xl border border-transparent py-3 text-sm font-medium transition;
+    @apply flex flex-col items-center justify-between rounded-xl py-3 text-sm font-medium transition;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--color-text);
+    min-height: 98px;
+    box-shadow: inset 0 0 0 1px rgba(74, 93, 115, 0.3);
   }
 
   .calendar-widget .react-calendar__tile:enabled:hover,
@@ -138,5 +142,19 @@ input:focus, textarea:focus {
 
   .calendar-widget .react-calendar__tile abbr {
     @apply no-underline;
+  }
+
+  .calendar-widget .calendar-tags {
+    @apply flex -m-0.5 w-full justify-center gap-1;
+    min-height: 30px;
+    max-height: 34px;
+    overflow: hidden;
+    flex-wrap: wrap;
+  }
+
+  .calendar-widget .calendar-tags span {
+    @apply px-1.5 py-0.5 text-[10px] font-semibold rounded-full leading-none;
+    height: 16px;
+    white-space: nowrap;
   }
 }

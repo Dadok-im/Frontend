@@ -10,6 +10,7 @@ import JoinPage from "./pages/JoinPage";
 import UserPage from "./pages/UserPage";
 import OAuthCallbackPage from "./pages/OAuthCallbackPage";
 import CookiePage from "./pages/CookiePage";
+import QuickPrescriptionPage from "./pages/QuickPrescriptionPage";
 import "./styles/App.css";
 import { useAuthStore } from "./stores/authStore";
 
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/quick-prescription" element={<QuickPrescriptionPage />} />
         <Route path="/diary" element={<DiaryPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/join" element={<JoinPage />} />
