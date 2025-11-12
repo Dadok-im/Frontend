@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES, API_BASE_URL, API_ENDPOINTS } from "../constants";
 import EntryModal from "../components/EntryModal";
 import type { Entry } from "../types";
@@ -18,7 +18,6 @@ interface MedRecord {
 const CalendarPage: React.FC = () => {
   const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const hasCheckedAuth = useAuthStore((state) => state.hasCheckedAuth);
   const navigate = useNavigate();
 
   const [showModal, setShowModal] = useState(false);
@@ -73,7 +72,7 @@ const CalendarPage: React.FC = () => {
   };
 
   const fetchDiaryEntries = async () => {
-    if (!hasCheckedAuth || !isAuthenticated) {
+    if (!isAuthenticated) {
       setLoading(false);
       return;
     }
@@ -110,12 +109,11 @@ const CalendarPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (!hasCheckedAuth) return;
     fetchDiaryEntries();
-  }, [hasCheckedAuth, isAuthenticated]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
-    if (!hasCheckedAuth || !isAuthenticated) {
+    if (!isAuthenticated) {
       setMedsByDate({});
       return;
     }
@@ -149,7 +147,7 @@ const CalendarPage: React.FC = () => {
     };
 
     loadMeds();
-  }, [selectedDate, hasCheckedAuth, isAuthenticated]);
+  }, [selectedDate, isAuthenticated]);
 
   const medsForSelectedDay = medsByDate[formatDate(selectedDate)] || [];
 
@@ -169,14 +167,6 @@ const CalendarPage: React.FC = () => {
         return "없음";
     }
   };
-
-  if (!hasCheckedAuth) {
-    return null;
-  }
-
-  if (hasCheckedAuth && !isAuthenticated) {
-    return <Navigate to={ROUTES.LOGIN} replace />;
-  }
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA]">

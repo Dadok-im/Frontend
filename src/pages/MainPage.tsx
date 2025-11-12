@@ -191,7 +191,7 @@ const MainPage: React.FC = () => {
               <div className="mb-5 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
                 <img
                   className="h-36 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-40"
-                  src="/src/assets/ai_img.png"
+                  src="/assets/ai_img.png"
                   alt="AI 상담 챗봇"
                   loading="lazy"
                   onError={handleImageError}
@@ -214,7 +214,7 @@ const MainPage: React.FC = () => {
               <div className="mb-5 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
                 <img
                   className="h-36 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-40"
-                  src="/src/assets/map-preview.png"
+                  src="/assets/map-preview.png"
                   alt="지도 미리보기"
                   loading="lazy"
                   onError={handleImageError}
@@ -237,7 +237,7 @@ const MainPage: React.FC = () => {
               <div className="mb-5 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
                 <img
                   className="h-36 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-40"
-                  src="/src/assets/calender.png"
+                  src="/assets/calender.png"
                   alt="캘린더 미리보기"
                   loading="lazy"
                   onError={handleImageError}

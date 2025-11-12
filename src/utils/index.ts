@@ -37,7 +37,7 @@ export const haversine = (lat1: number, lon1: number, lat2: number, lon2: number
  */
 export const handleImageError = (event: React.SyntheticEvent<HTMLImageElement, Event>): void => {
   const target = event.target as HTMLImageElement;
-  target.src = '/src/assets/placeholder.png'; // 기본 이미지로 대체
+  target.src = '/assets/placeholder.png'; // 기본 이미지로 대체
   target.alt = '이미지를 불러올 수 없습니다';
 };
 

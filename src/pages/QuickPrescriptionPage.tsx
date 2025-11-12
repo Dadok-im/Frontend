@@ -121,7 +121,7 @@ const QuickPrescriptionPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="relative z-10 mx-auto grid w-full max-w-5xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      <main className="relative z-10 mx-auto grid w-full max-w-5xl gap-6 px-4 py-10 sm:px-6 lg:max-w-6xl xl:grid-cols-[minmax(0,1.8fr)_minmax(360px,1fr)]">
         <section className="rounded-3xl border border-[rgba(163,184,198,0.4)] bg-[rgba(245,247,250,0.08)] p-5 shadow-2xl backdrop-blur-2xl sm:p-8">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -140,7 +140,7 @@ const QuickPrescriptionPage: React.FC = () => {
           </div>
         </section>
 
-        <section className="rounded-3xl border border-[rgba(163,184,198,0.4)] bg-[rgba(245,247,250,0.08)] p-5 shadow-2xl backdrop-blur-2xl sm:p-6">
+        <section className="flex flex-col rounded-3xl border border-[rgba(163,184,198,0.4)] bg-[rgba(245,247,250,0.08)] p-5 shadow-2xl backdrop-blur-2xl sm:p-6">
           <div className="flex items-center justify-between gap-3">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#D1FADF]">STEP 2</p>
@@ -152,7 +152,7 @@ const QuickPrescriptionPage: React.FC = () => {
             </span>
           </div>
 
-          <div className="mt-6 space-y-3 text-sm">
+          <div className="mt-6 flex-1 space-y-3 text-sm">
             {error && (
               <p className="rounded-2xl border border-rose-400/40 bg-rose-400/10 px-4 py-3 text-rose-100">{error}</p>
             )}
