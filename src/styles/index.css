@@ -77,14 +77,17 @@ input:focus, textarea:focus {
   }
 
   .calendar-widget .react-calendar__navigation {
-    @apply mb-6 flex flex-wrap items-center justify-between gap-2 px-2;
-    height: auto;
+    @apply mb-6 flex items-center justify-between gap-2 px-2;
+    flex-wrap: nowrap;
   }
 
   .calendar-widget .react-calendar__navigation button {
     @apply rounded-xl px-3 py-2 text-sm font-semibold shadow-md transition duration-200 hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60;
     background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
     color: #fff;
+    flex: 0 0 auto;
+    min-width: 2.4rem;
+    white-space: nowrap;
   }
 
   .calendar-widget .react-calendar__navigation__label {
@@ -92,6 +95,10 @@ input:focus, textarea:focus {
     color: var(--color-primary);
     border-radius: 12px;
     padding: 6px 10px;
+    flex: 1 1 auto;
+    min-width: 120px;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .calendar-widget .react-calendar__navigation__label:hover {
@@ -166,17 +173,8 @@ input:focus, textarea:focus {
   }
 
   .calendar-widget .react-calendar__navigation {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .calendar-widget .react-calendar__navigation button {
-    width: 100%;
-    font-size: 0.8rem;
-  }
-
-  .calendar-widget .react-calendar__navigation__label {
-    font-size: 1rem;
+    gap: 0.35rem;
+    padding-inline: 0.25rem;
   }
 
   .calendar-widget .react-calendar__tile {
@@ -191,5 +189,16 @@ input:focus, textarea:focus {
 
   .calendar-widget .calendar-tags {
     justify-content: flex-start;
+  }
+
+  .calendar-widget .react-calendar__navigation button {
+    padding: 0.35rem 0.55rem;
+    font-size: 0.75rem;
+    min-width: 2rem;
+  }
+
+  .calendar-widget .react-calendar__navigation__label {
+    font-size: 0.9rem;
+    min-width: 100px;
   }
 }
