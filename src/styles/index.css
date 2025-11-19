@@ -77,7 +77,8 @@ input:focus, textarea:focus {
   }
 
   .calendar-widget .react-calendar__navigation {
-    @apply mb-6 flex items-center justify-between px-2;
+    @apply mb-6 flex flex-wrap items-center justify-between gap-2 px-2;
+    height: auto;
   }
 
   .calendar-widget .react-calendar__navigation button {
