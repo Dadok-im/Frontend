@@ -179,7 +179,7 @@ const CalendarPage: React.FC = () => {
         }}
       />
 
-      <nav className="relative z-10 flex items-center justify-center gap-4 border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.08)] px-4 py-5 backdrop-blur-2xl shadow-lg sm:px-5 sm:py-6">
+      <nav className="relative z-10 flex flex-wrap items-center justify-center gap-3 border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.08)] px-4 py-4 shadow-lg backdrop-blur-2xl sm:gap-4 sm:px-6 sm:py-6">
         <Link
           to={ROUTES.HOME}
           className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.12)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.22)] sm:left-6 sm:text-sm"
@@ -196,9 +196,29 @@ const CalendarPage: React.FC = () => {
         )}
       </nav>
 
-      <div className="relative z-10 mx-auto grid max-w-6xl gap-5 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 px-4 py-6 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1fr)_360px]">
         <section className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-4 shadow-2xl backdrop-blur-2xl sm:p-6">
-          <div className="rounded-2xl bg-[#F5F7FA] p-3 text-[#1E1E1E] shadow-xl sm:p-4">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#D1FADF]/80 sm:text-[13px]">
+                Care Calendar
+              </p>
+              <h2 className="mt-1 text-xl font-semibold text-[#F5F7FA] sm:text-2xl">나의 케어 캘린더</h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 text-xs text-[#F5F7FA]/80 sm:text-sm">
+              <span className="rounded-full border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] px-3 py-1 font-medium">
+                {selectedDateLabel}
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowModal(true)}
+                className="inline-flex items-center justify-center rounded-full border border-[rgba(163,184,198,0.55)] px-4 py-1.5 font-semibold text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.2)]"
+              >
+                + 빠른 기록
+              </button>
+            </div>
+          </div>
+          <div className="rounded-2xl bg-[#F5F7FA] p-2 text-[#1E1E1E] shadow-xl sm:p-4">
             <Calendar
               className="calendar-widget"
               onClickDay={onDateClick}
@@ -233,9 +253,9 @@ const CalendarPage: React.FC = () => {
                 };
 
                 return (
-                  <div className="mt-2 flex flex-wrap gap-1 text-[10px] font-semibold text-[#4A5D73]">
+                  <div className="mt-2 flex flex-wrap gap-1 text-[9px] font-semibold text-[#4A5D73] sm:text-[10px]">
                     {entry?.mood && (
-                      <span className="flex items-center justify-center rounded-full bg-[#E1E8EF] px-2 py-1 text-base leading-none">
+                      <span className="flex items-center justify-center rounded-full bg-[#E1E8EF] px-2 py-1 text-sm leading-none sm:text-base">
                         {getMoodIcon(entry.mood)}
                       </span>
                     )}
@@ -268,7 +288,7 @@ const CalendarPage: React.FC = () => {
           </div>
         </section>
 
-        <aside className="flex flex-col gap-5 sm:gap-6">
+        <aside className="flex flex-col gap-5 sm:gap-6 lg:sticky lg:top-10">
           <div className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-5 shadow-xl backdrop-blur-2xl sm:p-6">
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-base font-semibold text-[#F5F7FA] sm:text-lg">오늘 요약</h3>
@@ -302,7 +322,7 @@ const CalendarPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setShowModal(true)}
-              className="mt-5 inline-flex items-center justify-center rounded-full border border-[rgba(163,184,198,0.55)] bg-[rgba(245,247,250,0.18)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.28)] sm:text-sm"
+              className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-[rgba(163,184,198,0.55)] bg-[rgba(245,247,250,0.18)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.28)] sm:w-auto sm:text-sm"
             >
               ✏️ 수정하기
             </button>

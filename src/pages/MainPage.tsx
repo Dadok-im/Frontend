@@ -102,7 +102,7 @@ const MainPage: React.FC = () => {
 
       <main className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6 md:pb-24">
         {/* Hero */}
-        <section className="py-16 text-center sm:py-20 md:py-24">
+        <section className="text-center pt-8 pb-4 sm:pt-12 sm:pb-6 md:pt-14 md:pb-8">
           <h1 className="bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text text-3xl font-bold tracking-tight text-transparent drop-shadow-xl sm:text-4xl md:text-5xl">
             당신의 정신 건강 여정에 오신 것을 환영합니다
             {isAuthenticated && user?.nickname && (
@@ -111,72 +111,13 @@ const MainPage: React.FC = () => {
               </span>
             )}
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-sm text-[#F5F7FA]/80 sm:text-base md:text-lg">
-             다독임은 AI 상담, 주변 병원 검색, 복약 및 감정 기록을 한 곳에서 관리할 수 있는 통합 심리 케어 플랫폼입니다.
+          <p className="mx-auto mt-5 max-w-2xl text-sm text-[#F5F7FA]/80 sm:text-base md:text-lg md:whitespace-nowrap">
+            다독임은 AI 상담, 주변 병원 검색, 복약 및 감정 기록을 한 곳에서 관리할 수 있는 통합 심리 케어 플랫폼입니다.
           </p>
-          <div className="mt-10 rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.2)] p-8 text-base leading-relaxed text-[#1E1E1E] shadow-2xl backdrop-blur-2xl sm:p-12 sm:text-lg md:mt-12 md:p-16">
-            배너 / 소개 이미지
-          </div>
-        </section>
-
-        {/* Quick Actions */}
-        <section className="py-10 sm:py-12 md:py-14">
-          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-[rgba(163,184,198,0.3)] bg-[rgba(245,247,250,0.18)] p-6 shadow-2xl backdrop-blur-2xl sm:p-8 md:flex-row md:items-center">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D1FADF]">
-                빠른 작업
-              </p>
-              <h2 className="mt-3 text-2xl font-bold text-[#F5F7FA] sm:text-3xl">
-                처방전 촬영 등록
-              </h2>
-              <p className="mt-3 text-sm text-[#F5F7FA]/80 sm:text-base">
-                처방전 촬영, 약 등록, 오늘 복약 확인을 한 페이지에서 빠르게 처리하세요.
-              </p>
-            </div>
-            <Link
-              to={ROUTES.QUICK_PRESCRIPTION}
-              className="rounded-full border border-[#A3B8C6] px-6 py-3 text-sm font-semibold text-[#F5F7FA] transition hover:-translate-y-0.5 hover:bg-[#F5F7FA]/10"
-            >
-              바로가기 →
-            </Link>
-          </div>
-
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {quickActions.map((action) => (
-              <Link
-                key={action.id}
-                className="group flex h-full flex-col justify-between rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.15)] p-6 text-left text-[#F5F7FA] shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.25)]"
-                to={action.to}
-                aria-label={`${action.title} 바로가기`}
-              >
-                <div>
-                  <span className="inline-block rounded-full bg-[#F8B400]/20 px-3 py-1 text-xs font-semibold text-[#F8B400]">
-                    {action.badge}
-                  </span>
-                  <h3 className="mt-4 text-xl font-semibold">{action.title}</h3>
-                  <p className="mt-2 text-sm text-[#F5F7FA]/80">{action.description}</p>
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    <span className="rounded-full bg-[#F5F7FA]/15 px-3 py-1 text-xs font-semibold">
-                      {action.pill}
-                    </span>
-                    <span className="rounded-full border border-[#F5F7FA]/30 px-3 py-1 text-xs font-semibold text-[#F5F7FA]/70">
-                      하루 복약 관리
-                    </span>
-                  </div>
-                </div>
-                <div className="mt-6 flex items-center justify-between text-sm font-semibold text-[#F5F7FA]">
-                  <span>{action.helper}</span>
-                  <span className="text-lg transition group-hover:translate-x-1" aria-hidden>
-                    →
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
         </section>
 
         {/* Feature cards */}
-        <section className="py-14 sm:py-16 md:py-20">
+        <section className="pt-6 pb-10 sm:pt-8 sm:pb-12 md:pt-10 md:pb-14">
           <h2 className="bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text text-center text-2xl font-bold tracking-tight text-transparent drop-shadow-xl sm:text-3xl md:text-4xl">
             활용 가능한 기능
           </h2>
@@ -250,6 +191,62 @@ const MainPage: React.FC = () => {
                 하루 복약 일정을 체크하고 기록을 남겨보세요.
               </p>
             </Link>
+          </div>
+        </section>
+
+        {/* Quick Actions */}
+        <section className="py-10 sm:py-12 md:py-14">
+          <div className="flex flex-col items-start justify-between gap-6 rounded-3xl border border-[rgba(163,184,198,0.3)] bg-[rgba(245,247,250,0.18)] p-6 shadow-2xl backdrop-blur-2xl sm:p-8 md:flex-row md:items-center">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D1FADF]">
+                빠른 작업
+              </p>
+              <h2 className="mt-3 text-2xl font-bold text-[#F5F7FA] sm:text-3xl">
+                처방전 촬영 등록
+              </h2>
+              <p className="mt-3 text-sm text-[#F5F7FA]/80 sm:text-base">
+                처방전 촬영, 약 등록, 오늘 복약 확인을 한 페이지에서 빠르게 처리하세요.
+              </p>
+            </div>
+            <Link
+              to={ROUTES.QUICK_PRESCRIPTION}
+              className="rounded-full border border-[#A3B8C6] px-6 py-3 text-sm font-semibold text-[#F5F7FA] transition hover:-translate-y-0.5 hover:bg-[#F5F7FA]/10"
+            >
+              바로가기 →
+            </Link>
+          </div>
+
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {quickActions.map((action) => (
+              <Link
+                key={action.id}
+                className="group flex h-full flex-col justify-between rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.15)] p-6 text-left text-[#F5F7FA] shadow-xl backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.25)]"
+                to={action.to}
+                aria-label={`${action.title} 바로가기`}
+              >
+                <div>
+                  <span className="inline-block rounded-full bg-[#F8B400]/20 px-3 py-1 text-xs font-semibold text-[#F8B400]">
+                    {action.badge}
+                  </span>
+                  <h3 className="mt-4 text-xl font-semibold">{action.title}</h3>
+                  <p className="mt-2 text-sm text-[#F5F7FA]/80">{action.description}</p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    <span className="rounded-full bg-[#F5F7FA]/15 px-3 py-1 text-xs font-semibold">
+                      {action.pill}
+                    </span>
+                    <span className="rounded-full border border-[#F5F7FA]/30 px-3 py-1 text-xs font-semibold text-[#F5F7FA]/70">
+                      하루 복약 관리
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-6 flex items-center justify-between text-sm font-semibold text-[#F5F7FA]">
+                  <span>{action.helper}</span>
+                  <span className="text-lg transition group-hover:translate-x-1" aria-hidden>
+                    →
+                  </span>
+                </div>
+              </Link>
+            ))}
           </div>
         </section>
       </main>
