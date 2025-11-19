@@ -122,72 +122,72 @@ const MainPage: React.FC = () => {
             활용 가능한 기능
           </h2>
 
-          <div className="mt-10 grid gap-6 sm:mt-12 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3">
+          <div className="mt-6 grid grid-cols-3 gap-3 sm:mt-12 sm:gap-6 lg:gap-8">
             {/* AI 상담 */}
             <Link
-              className="group relative flex flex-col rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.2)] p-6 text-left shadow-xl backdrop-blur-2xl transition duration-300 hover:-translate-y-2 hover:bg-[rgba(245,247,250,0.32)] sm:p-8 lg:p-10"
+              className="group relative flex flex-col rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.2)] p-3 text-left shadow-xl backdrop-blur-2xl transition duration-300 hover:-translate-y-2 hover:bg-[rgba(245,247,250,0.32)] sm:p-6 lg:p-8"
               to={ROUTES.CHAT}
               aria-label="AI 상담 챗봇으로 이동"
             >
-              <div className="mb-5 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
+              <div className="mb-4 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
                 <img
-                  className="h-36 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-40"
+                  className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-36"
                   src="/assets/ai_img.png"
                   alt="AI 상담 챗봇"
                   loading="lazy"
                   onError={handleImageError}
                 />
               </div>
-              <strong className="text-lg font-semibold text-[#F5F7FA] sm:text-xl">
+              <strong className="text-sm font-semibold text-[#F5F7FA] sm:text-lg">
                 AI 상담 시작하기
               </strong>
-              <p className="mt-2 text-sm text-[#F5F7FA]/80 sm:mt-3">
+              <p className="mt-1 text-[11px] text-[#F5F7FA]/80 sm:mt-3 sm:text-sm">
                 간단한 고민부터 챗봇에게 먼저 이야기해보세요.
               </p>
             </Link>
 
             {/* 지도 */}
             <Link
-              className="group relative flex flex-col rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.2)] p-6 text-left shadow-xl backdrop-blur-2xl transition duration-300 hover:-translate-y-2 hover:bg-[rgba(245,247,250,0.32)] sm:p-8 lg:p-10"
+              className="group relative flex flex-col rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.2)] p-3 text-left shadow-xl backdrop-blur-2xl transition duration-300 hover:-translate-y-2 hover:bg-[rgba(245,247,250,0.32)] sm:p-6 lg:p-8"
               to={ROUTES.MAP}
               aria-label="주변 병원 검색으로 이동"
             >
-              <div className="mb-5 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
+              <div className="mb-4 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
                 <img
-                  className="h-36 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-40"
+                  className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-36"
                   src="/assets/map-preview.png"
                   alt="지도 미리보기"
                   loading="lazy"
                   onError={handleImageError}
                 />
               </div>
-              <strong className="text-lg font-semibold text-[#F5F7FA] sm:text-xl">
+              <strong className="text-sm font-semibold text-[#F5F7FA] sm:text-lg">
                 주변 병원 찾기
               </strong>
-              <p className="mt-2 text-sm text-[#F5F7FA]/80 sm:mt-3">
+              <p className="mt-1 text-[11px] text-[#F5F7FA]/80 sm:mt-3 sm:text-sm">
                 가까운 병원을 찾고 상세 정보를 확인하세요.
               </p>
             </Link>
 
             {/* 캘린더 */}
             <Link
-              className="group relative flex flex-col rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.2)] p-6 text-left shadow-xl backdrop-blur-2xl transition duration-300 hover:-translate-y-2 hover:bg-[rgba(245,247,250,0.32)] sm:p-8 lg:p-10"
+              className="group relative flex flex-col rounded-2xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.2)] p-3 text-left shadow-xl backdrop-blur-2xl transition duration-300 hover:-translate-y-2 hover:bg-[rgba(245,247,250,0.32)] sm:p-6 lg:p-8"
               to={ROUTES.CALENDAR}
               aria-label="캘린더로 이동"
             >
-              <div className="mb-5 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
+              <div className="mb-4 overflow-hidden rounded-xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.08)] sm:mb-6">
                 <img
-                  className="h-36 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-40"
+                  className="h-24 w-full object-cover transition duration-300 group-hover:scale-[1.02] sm:h-36"
                   src="/assets/calender.png"
                   alt="캘린더 미리보기"
                   loading="lazy"
                   onError={handleImageError}
                 />
               </div>
-              <strong className="text-lg font-semibold text-[#F5F7FA] sm:text-xl">
+              <strong className="text-sm font-semibold text-[#F5F7FA] sm:text-lg">
                 복약 캘린더 확인
               </strong>
-              <p className="mt-2 text-sm text-[#F5F7FA]/80 sm:mt-3">
+              <p className="mt-1 text-[11px] text-[#F5F7FA]/80 sm:mt-3 sm:text-sm">
                 하루 복약 일정을 체크하고 기록을 남겨보세요.
               </p>
             </Link>
