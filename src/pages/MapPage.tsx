@@ -16,6 +16,7 @@ export default function MapPage() {
   const [clinics, setClinics] = useState<Clinic[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isListOpen, setIsListOpen] = useState(true);
 
   // 공용 검색 함수
   const fetchClinicsNow = useCallback(async (opt: {lat:number; lng:number; radius?:number|null; keyword:string}) => {
@@ -147,13 +148,26 @@ export default function MapPage() {
         <h1 className="text-xl font-semibold tracking-tight text-transparent drop-shadow-xl bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text sm:text-2xl md:text-3xl">
           주변 병원 검색
         </h1>
+        <button
+          type="button"
+          onClick={() => setIsListOpen((prev) => !prev)}
+          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.12)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.22)] sm:right-6 sm:text-sm"
+          aria-expanded={isListOpen}
+          aria-controls="clinic-list-panel"
+        >
+          {isListOpen ? '리스트 닫기' : '리스트 열기'}
+        </button>
       </nav>
 
       <div className="relative z-10 flex flex-1 flex-col overflow-hidden md:flex-row">
-        <aside className="flex h-full w-full flex-col border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.08)] p-5 backdrop-blur-2xl shadow-2xl sm:p-6 md:w-[360px] md:border-b-0 md:border-r md:p-8">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
-            <input
-              className="w-full rounded-2xl border border-[rgba(163,184,198,0.4)] bg-transparent px-4 py-3 text-sm text-[#F5F7FA] placeholder:text-[#F5F7FA]/70 shadow-inner transition duration-200 focus:border-[#F5F7FA] focus:outline-none focus:ring-2 focus:ring-[#A3B8C6]/40 sm:flex-1"
+        {isListOpen && (
+          <aside
+            id="clinic-list-panel"
+            className="flex h-full w-full flex-col border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.08)] p-5 backdrop-blur-2xl shadow-2xl sm:p-6 md:w-[360px] md:border-b-0 md:border-r md:p-8"
+          >
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+              <input
+                className="w-full rounded-2xl border border-[rgba(163,184,198,0.4)] bg-transparent px-4 py-3 text-sm text-[#F5F7FA] placeholder:text-[#F5F7FA]/70 shadow-inner transition duration-200 focus:border-[#F5F7FA] focus:outline-none focus:ring-2 focus:ring-[#A3B8C6]/40 sm:flex-1"
               value={q}
               onChange={e => setQ(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') startSearch(); }}
@@ -228,6 +242,7 @@ export default function MapPage() {
             )}
           </div>
         </aside>
+        )}
 
         <section className="relative flex flex-1 flex-col overflow-hidden border-t border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.95)] text-gray-900 md:border-l md:border-t-0">
           <div className="relative flex-1">
