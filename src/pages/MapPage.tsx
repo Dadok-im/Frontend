@@ -253,6 +253,7 @@ export default function MapPage() {
               onIdleCenterChange={handleIdleCenterChange}
               onIdleBoundsChange={handleIdleBoundsChange}
               fitToMarkers={false}
+              relayoutTrigger={isListOpen}
             />
           </div>
 

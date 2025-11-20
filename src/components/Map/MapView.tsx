@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import type { Clinic, MapBounds, MapCenter } from '../../types';
 import { loadKakaoScript } from '../../lib/kakao';
 
@@ -15,6 +15,7 @@ interface MapViewProps {
   onIdleCenterChange?: (c: MapCenter) => void;
   onIdleBoundsChange?: (b: MapBounds) => void; 
   fitToMarkers?: boolean;
+  relayoutTrigger?: unknown;
 } 
  
 const MapView: React.FC<MapViewProps> = ({ 
@@ -24,6 +25,7 @@ const MapView: React.FC<MapViewProps> = ({
   onIdleCenterChange, 
   onIdleBoundsChange, 
   fitToMarkers = true,
+  relayoutTrigger,
 }) => { 
   const mapRef = useRef<HTMLDivElement | null>(null); 
   const kakaoMapRef = useRef<any>(null); 
@@ -36,6 +38,12 @@ const MapView: React.FC<MapViewProps> = ({
   const lastCenterRef = useRef<MapCenter | null>(null);
   const lastBoundsRef = useRef<MapBounds | null>(null);
   const isUpdatingRef = useRef<boolean>(false);
+  const relayoutMap = useCallback(() => {
+    const map = kakaoMapRef.current;
+    if (map && typeof map.relayout === 'function') {
+      map.relayout();
+    }
+  }, []);
 
   // 최신 콜백을 ref에 보관
   useEffect(() => { idleCenterCbRef.current = onIdleCenterChange ?? null; }, [onIdleCenterChange]);
@@ -213,8 +221,33 @@ const MapView: React.FC<MapViewProps> = ({
     }
   }, [clinics, onMarkerClick, fitToMarkers]);
 
+  useEffect(() => {
+    relayoutMap();
+  }, [relayoutMap, relayoutTrigger]);
+
+  useEffect(() => {
+    if (!mapRef.current || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(() => {
+      relayoutMap();
+    });
+    observer.observe(mapRef.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, [relayoutMap]);
+
+  useEffect(() => {
+    window.addEventListener('resize', relayoutMap);
+    return () => {
+      window.removeEventListener('resize', relayoutMap);
+    };
+  }, [relayoutMap]);
+
   return (
-    <div ref={mapRef} style={{ width:'100%', height:'100%', borderRadius:16, border:'1px solid #A3B8C6' }} />
+    <div
+      ref={mapRef}
+      style={{ width:'100%', height:'100%', minHeight: 320, borderRadius:16, border:'1px solid #A3B8C6' }}
+    />
   );
 };
 
