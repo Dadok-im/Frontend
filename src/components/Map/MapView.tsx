@@ -40,10 +40,14 @@ const MapView: React.FC<MapViewProps> = ({
   const isUpdatingRef = useRef<boolean>(false);
   const relayoutMap = useCallback(() => {
     const map = kakaoMapRef.current;
+    const kakao = window.kakao;
     if (map && typeof map.relayout === 'function') {
       map.relayout();
+      if (kakao?.maps?.LatLng && typeof map.setCenter === 'function') {
+        map.setCenter(new kakao.maps.LatLng(center.lat, center.lng));
+      }
     }
-  }, []);
+  }, [center.lat, center.lng]);
 
   // 최신 콜백을 ref에 보관
   useEffect(() => { idleCenterCbRef.current = onIdleCenterChange ?? null; }, [onIdleCenterChange]);

@@ -159,7 +159,7 @@ export default function MapPage() {
         </button>
       </nav>
 
-      <div className="relative z-10 flex flex-1 flex-col overflow-hidden md:flex-row">
+      <div className="relative z-10 flex flex-1 flex-col overflow-hidden md:flex-row min-h-0">
         {isListOpen && (
           <aside
             id="clinic-list-panel"
@@ -244,8 +244,8 @@ export default function MapPage() {
         </aside>
         )}
 
-        <section className="relative flex flex-1 flex-col overflow-hidden border-t border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.95)] text-gray-900 md:border-l md:border-t-0">
-          <div className="relative flex-1">
+        <section className="relative flex flex-1 min-h-0 flex-col overflow-hidden border-t border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.95)] text-gray-900 md:border-l md:border-t-0">
+          <div className="relative flex-1 min-h-0">
             <MapView
               center={center}
               clinics={clinics}
