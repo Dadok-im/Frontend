@@ -50,7 +50,7 @@ const quickActions: QuickAction[] = [
 const mobileTiles = [
   {
     id: "chat",
-    title: "AI 상담 시작하기",
+    title: "AI 상담\n시작하기",
     to: ROUTES.CHAT,
     icon: "💬",
     iconBg: "from-[#dce9ff] to-[#eef4ff]",
@@ -68,7 +68,7 @@ const mobileTiles = [
   },
   {
     id: "calendar",
-    title: "복약 캘린더 확인",
+    title: "복약 캘린더\n확인",
     to: ROUTES.CALENDAR,
     icon: "📅",
     iconBg: "from-[#e9dcff] to-[#f4edff]",
@@ -77,7 +77,7 @@ const mobileTiles = [
   },
   {
     id: "prescription",
-    title: "처방전 등록하기",
+    title: "처방전\n등록하기",
     to: ROUTES.QUICK_PRESCRIPTION,
     icon: "📝",
     iconBg: "from-[#dff5e5] to-[#eefbf0]",
@@ -151,20 +151,22 @@ const MainPage: React.FC = () => {
             </div>
             <div className="grid grid-cols-2 gap-5">
               {mobileTiles.map((tile) => (
-                <Link
-                  key={tile.id}
-                  to={tile.to}
-                  className={`flex w-full flex-col items-center justify-center gap-4 rounded-2xl bg-gradient-to-br ${tile.cardBg} p-7 text-center shadow-xl ring-1 ring-slate-100/60 transition duration-150 hover:-translate-y-0.5 backdrop-blur`}
+              <Link
+                key={tile.id}
+                to={tile.to}
+                className={`flex w-full flex-col items-center justify-center gap-4 rounded-2xl bg-gradient-to-br ${tile.cardBg} p-7 text-center shadow-xl ring-1 ring-slate-100/60 transition duration-150 hover:-translate-y-0.5 backdrop-blur`}
+              >
+                <span
+                  className={`flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br ${tile.iconBg} ${tile.iconColor} text-3xl leading-none shadow-sm`}
                 >
-                  <span
-                    className={`flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br ${tile.iconBg} ${tile.iconColor} text-3xl leading-none shadow-sm`}
-                  >
-                    {tile.icon}
-                  </span>
-                <span className="text-lg font-semibold text-slate-900 drop-shadow-sm">{tile.title}</span>
-                </Link>
-              ))}
-            </div>
+                  {tile.icon}
+                </span>
+                <span className="whitespace-pre-line text-center text-lg font-semibold text-slate-900 drop-shadow-sm">
+                  {tile.title}
+                </span>
+              </Link>
+            ))}
+          </div>
           </div>
         </div>
       </div>
