@@ -94,7 +94,7 @@ const MainPage: React.FC = () => {
   return (
     <>
       {/* Mobile Layout */}
-      <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA] min-[390px]:hidden">
+      <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA] min-[500px]:hidden">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-90"
@@ -161,7 +161,7 @@ const MainPage: React.FC = () => {
                   >
                     {tile.icon}
                   </span>
-                  <span className="text-xl font-semibold text-slate-900 drop-shadow-sm">{tile.title}</span>
+                <span className="text-lg font-semibold text-slate-900 drop-shadow-sm">{tile.title}</span>
                 </Link>
               ))}
             </div>
@@ -170,7 +170,7 @@ const MainPage: React.FC = () => {
       </div>
 
       {/* Desktop & Tablet Layout */}
-      <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA] min-[390px]:block">
+      <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA] min-[500px]:block">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-90"
