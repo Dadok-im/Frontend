@@ -94,7 +94,7 @@ const MainPage: React.FC = () => {
   return (
     <>
       {/* Mobile Layout */}
-      <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA] sm:hidden">
+      <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA] min-[390px]:hidden">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-90"
@@ -188,7 +188,7 @@ const MainPage: React.FC = () => {
       </div>
 
       {/* Desktop & Tablet Layout */}
-      <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA] sm:block">
+      <div className="relative hidden min-h-screen overflow-hidden bg-gradient-to-br from-[#4A5D73] via-[#5C6373] to-[#A3B8C6] text-[#F5F7FA] min-[390px]:block">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-90"
@@ -200,28 +200,16 @@ const MainPage: React.FC = () => {
 
         {/* Header */}
         <header className="relative z-10 border-b border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.12)] backdrop-blur-2xl shadow-lg">
-          <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-5 sm:px-6 md:flex-row md:items-center md:justify-between">
+          <div className="mx-auto flex w-full max-w-6xl flex-col gap-3 px-4 py-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-6">
             <Link
-              className="bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text text-center text-2xl font-bold tracking-tight text-transparent drop-shadow-lg sm:text-3xl md:text-left md:text-[2rem]"
+              className="bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text text-left text-xl font-bold tracking-tight text-transparent drop-shadow-lg whitespace-nowrap sm:text-2xl md:text-[2rem]"
               to={ROUTES.HOME}
             >
-              다독임- {" "}
-              <span className="text-xl font-semibold sm:text-2xl md:text-[1.35rem]">
-              심리 상담 케어
-              </span>
+              다독임 - <span className="text-lg font-semibold sm:text-xl md:text-[1.35rem]">심리 상담 케어</span>
             </Link>
-            <nav className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:justify-end">
+            <nav className="flex flex-wrap items-center justify-start gap-2 sm:gap-3 sm:justify-end">
               <Link className={NAV_LINK_CLASS} to={ROUTES.HOME}>
                 홈
-              </Link>
-              <Link className={NAV_LINK_CLASS} to={ROUTES.CHAT}>
-                AI 상담
-              </Link>
-              <Link className={NAV_LINK_CLASS} to={ROUTES.MAP}>
-                지도
-              </Link>
-              <Link className={NAV_LINK_CLASS} to={ROUTES.CALENDAR}>
-                캘린더
               </Link>
               {isAuthenticated ? (
                 <Link
