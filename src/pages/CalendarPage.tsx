@@ -29,7 +29,6 @@ const getWeekDates = (date: Date) => {
 };
 
 const CalendarPage: React.FC = () => {
-  const user = useAuthStore((state) => state.user);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
 
