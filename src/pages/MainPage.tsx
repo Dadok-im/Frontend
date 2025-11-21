@@ -117,24 +117,6 @@ const MainPage: React.FC = () => {
             >
               {isAuthenticated ? "내정보" : "로그인"}
             </Link>
-            <Link
-              to={ROUTES.CHAT}
-              className="rounded-full border border-white/30 bg-white/15 px-3 py-2 text-xs font-semibold text-[#F5F7FA] shadow-sm backdrop-blur"
-            >
-              상담
-            </Link>
-            <Link
-              to={ROUTES.MAP}
-              className="rounded-full border border-white/30 bg-white/15 px-3 py-2 text-xs font-semibold text-[#F5F7FA] shadow-sm backdrop-blur"
-            >
-              지도
-            </Link>
-            <Link
-              to={ROUTES.CALENDAR}
-              className="rounded-full border border-white/30 bg-white/15 px-3 py-2 text-xs font-semibold text-[#F5F7FA] shadow-sm backdrop-blur"
-            >
-              캘린더
-            </Link>
           </nav>
         </header>
 
@@ -210,6 +192,15 @@ const MainPage: React.FC = () => {
             <nav className="flex flex-wrap items-center justify-start gap-2 sm:gap-3 sm:justify-end">
               <Link className={NAV_LINK_CLASS} to={ROUTES.HOME}>
                 홈
+              </Link>
+              <Link className={`${NAV_LINK_CLASS} hidden sm:inline-flex`} to={ROUTES.CHAT}>
+                AI 상담
+              </Link>
+              <Link className={`${NAV_LINK_CLASS} hidden sm:inline-flex`} to={ROUTES.MAP}>
+                지도
+              </Link>
+              <Link className={`${NAV_LINK_CLASS} hidden sm:inline-flex`} to={ROUTES.CALENDAR}>
+                캘린더
               </Link>
               {isAuthenticated ? (
                 <Link

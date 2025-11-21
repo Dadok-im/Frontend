@@ -198,7 +198,7 @@ const CalendarPage: React.FC = () => {
   const recordedDays = new Set(entries.map((entry) => entry.date)).size;
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-800 via-slate-700 to-slate-600 text-[#F5F7FA]">
+    <div className="relative min-h-screen bg-gradient-to-br from-slate-800 via-slate-700 to-slate-600 text-[#F5F7FA]">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-90"
@@ -208,7 +208,7 @@ const CalendarPage: React.FC = () => {
         }}
       />
 
-      <nav className="relative z-10 flex items-center justify-between gap-3 border-b border-white/20 bg-white/10 px-4 py-3 shadow-lg backdrop-blur">
+      <nav className="fixed inset-x-0 top-0 z-30 flex items-center justify-between gap-3 border-b border-white/20 bg-white/15 px-4 py-3 shadow-lg backdrop-blur md:relative md:z-10 md:bg-white/10">
         <Link
           to={ROUTES.HOME}
           className="rounded-full border border-white/30 bg-white/10 px-4 py-2 text-xs font-medium text-white shadow-md transition duration-200 hover:-translate-y-1 hover:bg-white/20"
@@ -221,7 +221,7 @@ const CalendarPage: React.FC = () => {
         <span className="w-16" aria-hidden />
       </nav>
 
-      <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 px-4 py-6 sm:px-6 sm:py-10 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 gap-5 px-4 pt-16 pb-6 sm:px-6 sm:pb-10 sm:pt-20 md:pt-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <section className="rounded-3xl border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur sm:p-6">
           <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="hidden sm:block">
