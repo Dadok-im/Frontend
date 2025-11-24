@@ -123,7 +123,7 @@ const MainPage: React.FC = () => {
         <div className="relative z-10 px-5 pb-14">
           <div className="overflow-hidden rounded-3xl bg-white/92 p-6 shadow-[0_15px_40px_rgba(21,34,49,0.25)] ring-1 ring-white/40 backdrop-blur">
             <div className="mb-5 flex items-center justify-between">
-              <div className="text-6xl leading-none">🧠</div>
+              <div className="text-6xl leading-none">🩵</div>
               <span className="rounded-full bg-gradient-to-r from-[#4A90E2] to-[#7F8FF4] px-3 py-1 text-xs font-semibold text-white shadow">
                 오늘도 함께
               </span>
@@ -238,7 +238,7 @@ const MainPage: React.FC = () => {
           {/* Feature cards */}
           <section className="pt-6 pb-10 sm:pt-8 sm:pb-12 md:pt-10 md:pb-14">
             <h2 className="bg-gradient-to-r from-[#F5F7FA] to-[#A3B8C6] bg-clip-text text-center text-2xl font-bold tracking-tight text-transparent drop-shadow-xl sm:text-3xl md:text-4xl">
-              활용 가능한 기능
+              빠른 시작
             </h2>
 
             <div className="mt-6 grid grid-cols-3 gap-3 sm:mt-12 sm:gap-6 lg:gap-8">
