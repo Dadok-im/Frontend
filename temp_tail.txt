@@ -1,0 +1,224 @@
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setShowModal(true)}
+                      aria-label="빠른 기록 추가"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E2E8F0] text-lg font-semibold text-[#4A5D73] shadow"
+                    >
+                      +
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextDay}
+                      aria-label="다음 날짜"
+                      className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E2E8F0] text-lg font-semibold text-[#4A5D73] shadow"
+                    >
+                      ?
+                    </button>
+                  </div>
+                </div>
+                <div className="mt-5 grid grid-cols-7 gap-2 text-center text-[11px] font-semibold text-gray-500">
+                  {weekDates.map((dateObj) => {
+                    const isSelectedDay = dateObj.toDateString() === selectedDate.toDateString();
+                    const todayFlag = isToday(dateObj);
+                    return (
+                      <button
+                        key={dateObj.toISOString()}
+                        type="button"
+                        onClick={() => setSelectedDate(new Date(dateObj))}
+                        className={`flex flex-col items-center gap-1 rounded-2xl p-1 ${
+                          isSelectedDay ? "bg-[#EEF2FF]" : "bg-transparent"
+                        }`}
+                      >
+                        <span>{daysShort[dateObj.getDay()]}</span>
+                        <span
+                          className={`flex h-10 w-10 items-center justify-center rounded-full text-base ${
+                            isSelectedDay
+                              ? "bg-[#E4ECFF] text-[#1E1E1E] font-bold shadow-lg"
+                              : "text-gray-700"
+                          }`}
+                        >
+                          {dateObj.getDate()}
+                        </span>
+                        {todayFlag && <span className="text-[9px] font-medium text-[#4A5D73]">오늘</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <Calendar
+              className="calendar-widget hidden sm:block"
+              onClickDay={onDateClick}
+              showNeighboringMonth={false}
+              maxDetail="month"
+              minDetail="month"
+              formatMonthYear={(_locale, date) => `${date.getFullYear()}년 ${date.getMonth() + 1}월`}
+              tileContent={({ date, view }) => {
+                if (view !== "month") return null;
+                const entry = getEntryForDate(date);
+                const medsForDate = medsByDate[formatDate(date)] || [];
+
+                const getMoodIcon = (mood?: string) => {
+                  switch (mood) {
+                    case "very-happy":
+                      return "??";
+                    case "happy":
+                      return "??";
+                    case "neutral":
+                      return "??";
+                    case "sad":
+                      return "??";
+                    case "very-sad":
+                      return "??";
+                    default:
+                      return null;
+                  }
+                };
+
+                return (
+                  <div className="mt-2 flex flex-wrap gap-1 text-[9px] font-semibold text-[#4A5D73] sm:text-[10px]">
+                    {entry?.mood && (
+                      <span className="flex items-center justify-center rounded-full bg-[#E1E8EF] px-2 py-1 text-sm leading-none sm:text-base">
+                        {getMoodIcon(entry.mood)}
+                      </span>
+                    )}
+                    {medsForDate.length > 0 && (
+                      <span
+                        className="rounded-full bg-[#DCE4EF] px-2 py-1 text-[10px] font-medium text-[#4A5D73]"
+                        aria-label={`약 ${medsForDate.length}개 기록됨`}
+                        title={`약 ${medsForDate.length}개 기록됨`}
+                      >
+                        ??
+                      </span>
+                    )}
+                    {entry?.counsel?.length ? (
+                      <span className="rounded-full bg-[#E9D5FF] px-2 py-1 text-[10px] font-medium text-[#4A5D73]">
+                        상담
+                      </span>
+                    ) : null}
+                  </div>
+                );
+              }}
+            />
+          </div>
+        </section>
+
+        <aside className="flex flex-col gap-5 sm:gap-6 lg:sticky lg:top-10">
+          <div className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="text-base font-semibold text-[#F5F7FA] sm:text-lg">오늘 기록 요약</h3>
+              <span className="text-[11px] font-medium text-[#F5F7FA]/70 sm:text-xs">{selectedDateLabel}</span>
+            </div>
+            <ul className="mt-4 space-y-2 text-xs text-[#F5F7FA]/90 sm:text-sm">
+              <li>기분: {getMoodLabel(todayEntry?.mood)}</li>
+              <li>
+                복약:
+                {loadingMeds
+                  ? " 불러오는 중..."
+                  : medsForSelectedDay.length
+                  ? ` ${medsForSelectedDay.map((med) => med.name).join(", ")}`
+                  : " 기록 없음"}
+              </li>
+              <li>상담: {todayEntry?.counsel?.join(", ") || "기록 없음"}</li>
+              <li>일기: {todayEntry?.diary ? "작성 완료" : "작성되지 않음"}</li>
+            </ul>
+            {medsForSelectedDay.length > 0 && !loadingMeds && (
+              <div className="mt-4 rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.08)] p-4 text-xs text-[#F5F7FA]/85 sm:text-sm">
+                <strong className="block text-[#F5F7FA]">복약 상세</strong>
+                <ul className="mt-2 list-disc space-y-1 pl-5">
+                  {medsForSelectedDay.map((med) => (
+                    <li key={med.id}>
+                      {med.name} {med.source === "ocr" ? "(OCR)" : med.source === "manual" ? "(수동)" : ""}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => setShowModal(true)}
+              className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-[rgba(163,184,198,0.55)] bg-[rgba(245,247,250,0.18)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.28)] sm:w-auto sm:text-sm"
+            >
+              빠른 기록 열기
+            </button>
+          </div>
+
+          <div className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+            <h3 className="text-base font-semibold text-[#F5F7FA] sm:text-lg">
+              {isToday(selectedDate) ? "오늘 일기" : isFuture(selectedDate) ? "미래 일기" : "과거 일기"}
+            </h3>
+            <div className="mt-4 space-y-4 text-xs text-[#F5F7FA]/90 sm:text-sm">
+              {loading ? (
+                <p className="rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.12)] p-5 text-center text-[#F5F7FA]/70">
+                  일기를 불러오는 중입니다...
+                </p>
+              ) : !isToday(selectedDate) ? (
+                todayEntry?.diaryText ? (
+                  <>
+                    <p className="rounded-2xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.12)] p-4 text-sm leading-6 text-[#F5F7FA]/90">
+                      {todayEntry.diaryText}
+                    </p>
+                    <p className="text-center text-[11px] text-[#F5F7FA]/70 sm:text-xs">
+                      {isFuture(selectedDate)
+                        ? "미래 날짜의 일기는 미리 작성할 수 없어요."
+                        : "과거 일기는 수정만 가능합니다."}
+                    </p>
+                  </>
+                ) : (
+                  <p className="rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.12)] p-5 text-center text-[#F5F7FA]/70">
+                    {isFuture(selectedDate)
+                      ? "미래 날짜의 일기는 아직 작성할 수 없어요."
+                      : "해당 날짜의 일기 기록이 없습니다."}
+                  </p>
+                )
+              ) : todayEntry?.diaryText ? (
+                <>
+                  <p className="rounded-2xl border border-[rgba(163,184,198,0.18)] bg-[rgba(245,247,250,0.12)] p-4 text-sm leading-6 text-[#F5F7FA]/90">
+                    {todayEntry.diaryText}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleDiaryWrite}
+                    className="inline-flex items-center justify-center rounded-full border border-[rgba(163,184,198,0.55)] bg-[rgba(245,247,250,0.18)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-[rgba(245,247,250,0.28)] sm:text-sm"
+                  >
+                    오늘 일기 수정
+                  </button>
+                </>
+              ) : (
+                <>
+                  <p className="rounded-2xl border border-[rgba(163,184,198,0.25)] bg-[rgba(245,247,250,0.12)] p-5 text-center text-[#F5F7FA]/70">
+                    아직 오늘의 일기가 없습니다.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={handleDiaryWrite}
+                    className="inline-flex w-full items-center justify-center rounded-full bg-[#4A5D73] px-4 py-3 text-xs font-semibold text-[#F5F7FA] shadow-lg transition duration-200 hover:-translate-y-0.5 hover:bg-[#5C6373] sm:text-sm"
+                  >
+                    오늘 일기 작성
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] p-5 shadow-xl backdrop-blur-2xl sm:p-6">
+            <h3 className="text-base font-semibold text-[#F5F7FA] sm:text-lg">케어 스코어</h3>
+            <ul className="mt-4 space-y-2 text-xs text-[#F5F7FA]/85 sm:text-sm">
+              <li>복약 달성률: {medicationRate}%</li>
+              <li>작성한 일기: {diaryCount}건</li>
+              <li>상담 참여: {counselCount}건</li>
+              <li>기록한 날짜: {recordedDays}일</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+
+      {showModal && (
+        <EntryModal date={selectedDate} onClose={() => setShowModal(false)} onSave={handleSave} />
+      )}
+    </div>
+  );
+};
+
+export default CalendarPage;

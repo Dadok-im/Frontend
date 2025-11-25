@@ -42,10 +42,10 @@ const ChatPage: React.FC = () => {
         }}
       />
 
-      <nav className="relative z-10 flex items-center justify-center border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.08)] px-4 py-5 backdrop-blur-2xl shadow-lg sm:px-5 sm:py-6">
+      <nav className="fixed inset-x-0 top-0 z-30 flex items-center justify-center border-b border-[rgba(163,184,198,0.35)] bg-[rgba(245,247,250,0.12)] px-4 py-4 backdrop-blur-2xl shadow-lg sm:px-5 sm:py-5 md:relative md:z-10 md:bg-[rgba(245,247,250,0.08)] md:py-6">
         <Link
           to={ROUTES.HOME}
-          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.12)] px-4 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.2)] sm:left-6 sm:text-sm"
+          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full border border-[rgba(163,184,198,0.45)] bg-[rgba(245,247,250,0.12)] px-3 py-2 text-xs font-medium text-[#F5F7FA] shadow-md transition duration-200 hover:-translate-y-1 hover:bg-[rgba(245,247,250,0.2)] sm:left-6 sm:text-sm"
         >
           ← 홈으로
         </Link>
@@ -65,7 +65,7 @@ const ChatPage: React.FC = () => {
         </div>
       </nav>
 
-      <div className="relative z-10 mx-auto flex w-full flex-1 flex-col px-4 pb-6 pt-4 sm:pb-8 sm:pt-6">
+      <div className="relative z-10 mx-auto flex w-full flex-1 flex-col px-4 pb-6 pt-16 sm:pb-8 sm:pt-20 md:pt-8">
         <div
           className={`chat-container ${darkMode ? "dark" : "light"} relative mx-auto flex w-full max-w-md flex-1 flex-col overflow-hidden rounded-3xl border shadow-2xl backdrop-blur-2xl sm:max-w-lg md:max-w-xl ${
             darkMode
