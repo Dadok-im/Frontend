@@ -9,9 +9,8 @@ interface MessageBubbleProps {
 
 const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isDark }) => {
   const isUser = message.role === MESSAGE_ROLES.USER;
-  const avatarUrl = isUser
-    ? "https://i.pravatar.cc/40?img=3"
-    : "https://i.pravatar.cc/40?img=12";
+  // Use local assets: assistant uses dadok, user uses user.png
+  const avatarUrl = isUser ? "/assets/user.png" : "/assets/dadok.png";
 
   const bubbleBase =
     "max-w-[80%] rounded-2xl px-4 py-3 text-xs sm:text-sm leading-relaxed shadow-sm";
@@ -28,7 +27,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isDark }) => {
         <img
           src={avatarUrl}
           alt="assistant"
-          className="h-8 w-8 rounded-full border border-[rgba(163,184,198,0.55)] object-cover shadow-sm sm:h-9 sm:w-9"
+          className="h-10 w-10 rounded-full border border-[rgba(163,184,198,0.55)] object-cover shadow-sm sm:h-10 sm:w-10"
         />
       )}
       <div className={`${bubbleBase} ${isUser ? userBubble : assistantBubble}`}>
@@ -38,7 +37,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({ message, isDark }) => {
         <img
           src={avatarUrl}
           alt="user"
-          className="h-8 w-8 rounded-full border border-[rgba(163,184,198,0.55)] object-cover shadow-sm sm:h-9 sm:w-9"
+          className="h-10 w-10 rounded-full border border-[rgba(163,184,198,0.55)] object-cover shadow-sm sm:h-10 sm:w-10"
         />
       )}
     </div>
